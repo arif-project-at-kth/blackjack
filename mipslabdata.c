@@ -7,7 +7,7 @@
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
-
+void *stdin, *stdout, *stderr;
 char textbuffer[4][16];
 
 const uint8_t const font[] = {

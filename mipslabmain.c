@@ -11,6 +11,8 @@
 #include <pic32mx.h> /* Declarations of system-specific addresses etc */
 #include "mipslab.h" /* Declatations for these labs */
 
+void *stdin, *stdout, *stderr;
+
 /** Starting up project (FROM LAB3) **/
 void startup(void)
 {
