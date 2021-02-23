@@ -514,3 +514,14 @@ void reset_display(void) {
   display_string(2, "");
   display_string(3, "");
 }
+
+/** RESET GAME **/
+void reset_game(void) {
+  player_score = 0;
+  playerState = 1;
+  player_draw = 0;
+
+  cpu_score = 0;
+  cpu_draw = 0;
+  return;
+}

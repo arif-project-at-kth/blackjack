@@ -88,4 +88,4 @@ int check_score(void);
 int compare_score(void);
 void show_all_hands(void);
 void reset_display(void);
-
+void reset_game(void);

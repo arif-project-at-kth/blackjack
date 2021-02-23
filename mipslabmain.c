@@ -66,7 +66,8 @@ int main(void)
 	startup();
 	display_init();
 	init();
-
+NEWGAME:
+	reset_game();
 	//start of the round deals 2 cards for plater 1 of cpu.
 	drawCard(1);
 	drawCard(0);
@@ -99,6 +100,21 @@ int main(void)
 	{
 		display_score(1, "Cpu won:", cpu_score);
 		display_update();
+	}
+
+	while (1)
+	{
+		display_string(2, "NEW GAME? (BTN2)");
+		display_string(3, "QUIT? (BTN1)");
+		display_update();
+		if (is_pressed(BTN2))
+		{
+			goto NEWGAME;
+		}
+		if (is_pressed(BTN1))
+		{
+			break;
+		}
 	}
 
 	return 0;
