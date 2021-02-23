@@ -431,11 +431,10 @@ int is_pressed(const int button)
 }
 
 /** GET CARD VALUE **/
-// RANDOM ??
-// TODO GET RANDOM VALUE
-int card_value() 
+// TODO GET VALUE FROM DECK[3][14]
+int card_value()
 {
-  int value = rand() % 13;
+  int value = rand() % 11;
   return (value) == 0 ? card_value() : value;
 }
 
@@ -457,13 +456,6 @@ void drawCard(int player)
     cpu_score += card_value();
   }
 }
-// TODO CORRECT PLAYER GET CARD
-
-/** HIT **/
-// TODO FIX HOW TO HIT
-
-/** STAND **/
-// TODO FIX HOW TO STAND
 
 /** CHECK HAND SCORE **/
 int check_score(void)
@@ -488,7 +480,6 @@ int check_score(void)
 }
 
 /** Compare Score**/
-
 int compare_score(void)
 {
   if (player_score == 21)
@@ -503,7 +494,7 @@ int compare_score(void)
   {
     return 1;
   }
-  
+
   return 0;
 }
 
@@ -527,6 +518,23 @@ void reset_display(void)
   display_string(3, "");
 }
 
+/** CREATE DECK **/
+int deck[3][14];
+void create_deck()
+{
+  int i = 0;
+  while (i != 4)
+  {
+    int j = 0;
+    while (j < 15)
+    {
+      deck[i][j] = cards[j]; 
+    }
+  }
+  
+  return;
+}
+
 /** RESET GAME **/
 void reset_game(void)
 {
@@ -536,5 +544,8 @@ void reset_game(void)
 
   cpu_score = 0;
   cpu_draw = 0;
+
+  //create_deck();
   return;
 }
+
