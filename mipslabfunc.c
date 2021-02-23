@@ -433,6 +433,11 @@ int is_pressed(const int button)
 /** GET CARD VALUE **/
 // RANDOM ??
 // TODO GET RANDOM VALUE
+int card_value() 
+{
+  int value = rand() % 13;
+  return (value) == 0 ? card_value() : value;
+}
 
 /** DRAW CARD **/
 int player_draw;
@@ -444,12 +449,12 @@ void drawCard(int player)
   if (player == 1 && playerState == 1)
   {
     player_draw++;
-    player_score += rand() % 11;
+    player_score += card_value();
   }
   if (player == 0)
   {
     cpu_draw++;
-    cpu_score += rand() % 11;
+    cpu_score += card_value();
   }
 }
 // TODO CORRECT PLAYER GET CARD
