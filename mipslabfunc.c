@@ -430,13 +430,6 @@ int is_pressed(const int button)
   return (button & (PORTD | PORTF)) ? 1 : 0;
 }
 
-/** CHECK TURN **/
-int turn = 1;
-int check_turn(void)
-{
-  return turn;
-}
-
 /** GET CARD VALUE **/
 // RANDOM ??
 // TODO GET RANDOM VALUE
@@ -463,12 +456,7 @@ void drawCard(int player)
 
 /** HIT **/
 // TODO FIX HOW TO HIT
-void hit(void)
-{
-  player_score++;
-  turn = 0;
-  return;
-}
+
 
 /** STAND **/
 // TODO FIX HOW TO STAND
@@ -507,27 +495,18 @@ if ( player_score > cpu_score && player_score < 21){
 return 0;
 }
 
-// TODO FIX HOW TO SHOW WINNINGS MESSAGE
 
 /** SHOW HAND **/
 void show_all_hands(void)
 {
   display_score(0, "Player1:", player_score);
-  //display_string(1,itoaconv(player_draw));
   display_score(1, "Drawn Cards:", player_draw);
   display_score(2,"Cpu:",cpu_score);
   display_score(3, "Drawn Cards:", cpu_draw);
-
   display_update();
   return;
 }
 
-/** NEXT TURN **/
-void next_turn(void)
-{
-  turn = turn == 1 ? 0 : 1;
-  return;
-}
 /** RESET DISPLAY **/
 void reset_display(void) {
   display_string(0, "");

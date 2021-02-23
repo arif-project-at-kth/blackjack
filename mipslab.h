@@ -84,10 +84,8 @@ void setup_interrupt(void);
 void display_score(int, char*, int);
 int is_pressed(int);
 int check_turn(void);
-void hit();
 int check_score(void);
 int compare_score(void);
 void show_all_hands(void);
-void next_turn(void);
 void reset_display(void);
 
