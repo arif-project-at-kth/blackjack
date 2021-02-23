@@ -93,12 +93,12 @@ NEWGAME:
 
 	if (compare_score() == 1)
 	{
-		display_score(1, "PLayer won", player_score);
+		display_score(0, "PLayer won", player_score);
 		display_update();
 	}
 	else
 	{
-		display_score(1, "Cpu won:", cpu_score);
+		display_score(0, "Cpu won:", cpu_score);
 		display_update();
 	}
 
@@ -116,6 +116,10 @@ NEWGAME:
 			break;
 		}
 	}
+
+	reset_display();
+	display_string(0, "Good bye!");
+	display_update();
 
 	return 0;
 }

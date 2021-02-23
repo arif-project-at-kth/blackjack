@@ -437,7 +437,7 @@ int is_pressed(const int button)
 /** DRAW CARD **/
 int player_draw;
 int cpu_draw;
-int playerState =1;
+int playerState = 1;
 void drawCard(int player)
 {
 
@@ -446,7 +446,7 @@ void drawCard(int player)
     player_draw++;
     player_score += rand() % 11;
   }
-  if (player== 0)
+  if (player == 0)
   {
     cpu_draw++;
     cpu_score += rand() % 11;
@@ -456,7 +456,6 @@ void drawCard(int player)
 
 /** HIT **/
 // TODO FIX HOW TO HIT
-
 
 /** STAND **/
 // TODO FIX HOW TO STAND
@@ -468,47 +467,55 @@ int check_score(void)
   {
     return 1;
   }
-  if (cpu_score == 21){
+  if (cpu_score == 21)
+  {
     return 1;
   }
-  if (playerState == 0){
+  if (playerState == 0)
+  {
+    return 1;
+  }
+  if (player_score > 21)
+  {
     return 1;
   }
   return 0;
-
 }
-
-
 
 /** Compare Score**/
 
-int compare_score(void){
-  if (player_score == 21 ){
+int compare_score(void)
+{
+  if (player_score == 21)
+  {
     return 1;
   }
-if( cpu_score > 21){
-  return 1; 
+  if (cpu_score > 21)
+  {
+    return 1;
+  }
+  if (player_score > cpu_score && player_score < 21)
+  {
+    return 1;
+  }
+  
+  return 0;
 }
-if ( player_score > cpu_score && player_score < 21){
-  return 1; 
-}
-return 0;
-}
-
 
 /** SHOW HAND **/
 void show_all_hands(void)
 {
   display_score(0, "Player1:", player_score);
   display_score(1, "Drawn Cards:", player_draw);
-  display_score(2,"Cpu:",cpu_score);
+  display_score(2, "Cpu:", cpu_score);
   display_score(3, "Drawn Cards:", cpu_draw);
   display_update();
   return;
 }
 
 /** RESET DISPLAY **/
-void reset_display(void) {
+void reset_display(void)
+{
   display_string(0, "");
   display_string(1, "");
   display_string(2, "");
@@ -516,7 +523,8 @@ void reset_display(void) {
 }
 
 /** RESET GAME **/
-void reset_game(void) {
+void reset_game(void)
+{
   player_score = 0;
   playerState = 1;
   player_draw = 0;
