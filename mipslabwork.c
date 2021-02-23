@@ -24,10 +24,24 @@ void user_isr(void)
         {
             // display_score (0, "hest",rand()%21);
             ///hit                                          //hit
-            //display_update();
+         //   display_update();
             input = 0;
         }
+
+        
     }
+    int inputB = 1;
+        while (is_pressed(BTN3))
+        {
+            if (inputB == 1)
+            {
+               // display_string(1, "stand");
+               // display_update();
+                                                    //stand
+
+                    inputB = 0;
+            }
+        }
     // display_string(0,"hello");
     // display_update();
     IFS(0) = 0;
