@@ -13,10 +13,24 @@
 #include <stdint.h>  /* Declarations of uint_32 and the like */
 #include <pic32mx.h> /* Declarations of system-specific addresses etc */
 #include "mipslab.h" /* Declatations for these labs */
-
+void *stdin, *stdout, *stderr;
 /* Interrupt Service Routine */
 void user_isr(void)
 {
+    int input = 1;
+    while (is_pressed(BTN4))
+    {
+        if (input == 1)
+        {
+            // display_score (0, "hest",rand()%21);
+            ///hit                                          //hit
+            //display_update();
+            input = 0;
+        }
+    }
+    // display_string(0,"hello");
+    // display_update();
+    IFS(0) = 0;
     return;
 }
 
@@ -24,35 +38,13 @@ void user_isr(void)
 void init(void)
 {
     init_buttons();
-    //setup_interrupt();
+    setup_interrupt();
     return;
 }
 
 /* This function is called repetitively from the main program */
 void labwork(void)
 {
-    display_string(0, "Hello World");
-    show_all_hands();
-
-    /** HIT **/ // TODO FIX HOW TO HIT
-    if (is_pressed(BTN4) && check_turn())
-    {
-        hit();
-    }
-
-    /** WINNERS? **/
-    if (check_player_hand())
-    {
-        display_string(0, "PLAYER 1 WINNER");
-    }
-    if (check_cpu_hand())
-    {
-        display_string(0, "PLAYER 2 WINNER");
-    }
-    
-    // DELAY
-    delay(500);
-    next_turn();
-
-    return;
+    display_string(0, "hello");
+    display_update();
 }
