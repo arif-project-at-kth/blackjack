@@ -65,11 +65,24 @@ int main(void)
 {
 	startup();
 	display_init();
-	init(); 
+	init();
+
+	//start of the round deals 2 cards for plater 1 of cpu.
+	drawCard(1);
+	drawCard(0);
+	drawCard(1);
+
+	//check p1 if == 21
+	check_player_hand();
 
 	while (1)
 	{
+		if (check_player_hand())
+		{
+			break;
+		}
 		labwork(); /* Do lab-specific things again and again */
 	}
+	show_all_hands();
 	return 0;
 }

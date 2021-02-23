@@ -74,7 +74,7 @@ extern const int SW3;
 extern const int SW4;
 
 #endif
-
+extern int playerState;
 extern int player_score;
 extern int cpu_score;
 
@@ -89,3 +89,4 @@ int check_player_hand(void);
 int check_cpu_hand(void);
 void show_all_hands(void);
 void next_turn(void);
+

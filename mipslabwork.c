@@ -23,25 +23,27 @@ void user_isr(void)
         if (input == 1)
         {
             // display_score (0, "hest",rand()%21);
-            ///hit                                          //hit
-         //   display_update();
+            drawCard(1); //hit
+                         //   display_update();
             input = 0;
         }
-
-        
     }
     int inputB = 1;
-        while (is_pressed(BTN3))
+    while (is_pressed(BTN3))
+    {
+        if (inputB == 1)
         {
-            if (inputB == 1)
-            {
-               // display_string(1, "stand");
-               // display_update();
-                                                    //stand
-
-                    inputB = 0;
+            // display_string(1, "stand");
+            // display_update();
+            while (player_score > cpu_score && cpu_score < 21|| cpu_score <16){
+                drawCard(0);
+                show_all_hands();
+                playerState = 0;
             }
+
+            inputB = 0;
         }
+    }
     // display_string(0,"hello");
     // display_update();
     IFS(0) = 0;
@@ -59,6 +61,5 @@ void init(void)
 /* This function is called repetitively from the main program */
 void labwork(void)
 {
-    display_string(0, "hello");
-    display_update();
+    show_all_hands();
 }

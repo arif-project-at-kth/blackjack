@@ -442,6 +442,23 @@ int check_turn(void)
 // TODO GET RANDOM VALUE
 
 /** DRAW CARD **/
+int player_draw;
+int cpu_draw;
+int playerState =1;
+void drawCard(int player)
+{
+
+  if (player == 1 && playerState == 1)
+  {
+    player_draw++;
+    player_score += rand() % 11;
+  }
+  if (player== 0)
+  {
+    cpu_draw++;
+    cpu_score += rand() % 11;
+  }
+}
 // TODO CORRECT PLAYER GET CARD
 
 /** HIT **/
@@ -481,16 +498,19 @@ int check_cpu_hand(void)
 /** SHOW HAND **/
 void show_all_hands(void)
 {
-  display_string(0, "Player 1: ");
-  display_string(1, itoaconv(player_score));
-  display_string(2, "Player 2: ");
-  display_string(3, itoaconv(cpu_score));
+  display_score(0, "Player1:", player_score);
+  //display_string(1,itoaconv(player_draw));
+  display_score(1, "Drawn Cards:", player_draw);
+  display_score(2,"Cpu:",cpu_score);
+  display_score(3, "Drawn Cards:", cpu_draw);
+
   display_update();
   return;
 }
 
 /** NEXT TURN **/
-void next_turn(void) {
+void next_turn(void)
+{
   turn = turn == 1 ? 0 : 1;
   return;
 }
