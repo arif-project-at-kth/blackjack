@@ -474,25 +474,39 @@ void hit(void)
 // TODO FIX HOW TO STAND
 
 /** CHECK HAND SCORE **/
-int check_player_hand(void)
+int check_score(void)
 {
   if (player_score == 21)
   {
     return 1;
   }
-  return 0;
-}
-
-int check_cpu_hand(void)
-{
-  if (cpu_score == 21)
-  {
+  if (cpu_score == 21){
+    return 1;
+  }
+  if (playerState == 0){
     return 1;
   }
   return 0;
+
 }
 
-/** WINNER MESSAGE **/
+
+
+/** Compare Score**/
+
+int compare_score(void){
+  if (player_score == 21 ){
+    return 1;
+  }
+if( cpu_score > 21){
+  return 1; 
+}
+if ( player_score > cpu_score && player_score < 21){
+  return 1; 
+}
+return 0;
+}
+
 // TODO FIX HOW TO SHOW WINNINGS MESSAGE
 
 /** SHOW HAND **/
@@ -513,4 +527,11 @@ void next_turn(void)
 {
   turn = turn == 1 ? 0 : 1;
   return;
+}
+/** RESET DISPLAY **/
+void reset_display(void) {
+  display_string(0, "");
+  display_string(1, "");
+  display_string(2, "");
+  display_string(3, "");
 }

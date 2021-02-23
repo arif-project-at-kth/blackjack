@@ -73,16 +73,33 @@ int main(void)
 	drawCard(1);
 
 	//check p1 if == 21
-	check_player_hand();
+	//check_score();
 
 	while (1)
 	{
-		if (check_player_hand())
+		if (check_score())
 		{
+			reset_display();
+			display_string(0, "BREAKING!");
+			display_update();
+
 			break;
 		}
 		labwork(); /* Do lab-specific things again and again */
 	}
-	show_all_hands();
+	//show_all_hands();
+	reset_display();
+
+	if (compare_score() == 1)
+	{
+		display_score(1, "PLayer won", player_score);
+		display_update();
+	}
+	else
+	{
+		display_score(1, "Cpu won:", cpu_score);
+		display_update();
+	}
+
 	return 0;
 }
