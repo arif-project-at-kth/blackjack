@@ -431,35 +431,31 @@ int is_pressed(const int button)
 }
 
 /** GET CARD VALUE **/
-// RANDOM ??
-// TODO GET RANDOM VALUE
+// TODO GET VALUE FROM DECK[3][14]
+int card_value()
+{
+  int value = rand() % 11;
+  return (value) == 0 ? card_value() : value;
+}
 
 /** DRAW CARD **/
 int player_draw;
 int cpu_draw;
-int playerState =1;
+int playerState = 1;
 void drawCard(int player)
 {
 
   if (player == 1 && playerState == 1)
   {
     player_draw++;
-    player_score += rand() % 11;
+    player_score += card_value();
   }
-  if (player== 0)
+  if (player == 0)
   {
     cpu_draw++;
-    cpu_score += rand() % 11;
+    cpu_score += card_value();
   }
 }
-// TODO CORRECT PLAYER GET CARD
-
-/** HIT **/
-// TODO FIX HOW TO HIT
-
-
-/** STAND **/
-// TODO FIX HOW TO STAND
 
 /** CHECK HAND SCORE **/
 int check_score(void)
@@ -468,49 +464,88 @@ int check_score(void)
   {
     return 1;
   }
-  if (cpu_score == 21){
+  if (cpu_score == 21)
+  {
     return 1;
   }
-  if (playerState == 0){
+  if (playerState == 0)
+  {
+    return 1;
+  }
+  if (player_score > 21)
+  {
     return 1;
   }
   return 0;
-
 }
-
-
 
 /** Compare Score**/
-
-int compare_score(void){
-  if (player_score == 21 ){
+int compare_score(void)
+{
+  if (player_score == 21)
+  {
     return 1;
   }
-if( cpu_score > 21){
-  return 1; 
-}
-if ( player_score > cpu_score && player_score < 21){
-  return 1; 
-}
-return 0;
-}
+  if (cpu_score > 21)
+  {
+    return 1;
+  }
+  if (player_score > cpu_score && player_score < 21)
+  {
+    return 1;
+  }
 
+  return 0;
+}
 
 /** SHOW HAND **/
 void show_all_hands(void)
 {
   display_score(0, "Player1:", player_score);
   display_score(1, "Drawn Cards:", player_draw);
-  display_score(2,"Cpu:",cpu_score);
+  display_score(2, "Cpu:", cpu_score);
   display_score(3, "Drawn Cards:", cpu_draw);
   display_update();
   return;
 }
 
 /** RESET DISPLAY **/
-void reset_display(void) {
+void reset_display(void)
+{
   display_string(0, "");
   display_string(1, "");
   display_string(2, "");
   display_string(3, "");
 }
+
+/** CREATE DECK **/
+int deck[3][14];
+void create_deck()
+{
+  int i = 0;
+  while (i != 4)
+  {
+    int j = 0;
+    while (j < 15)
+    {
+      deck[i][j] = cards[j]; 
+    }
+  }
+  
+  return;
+}
+
+/** RESET GAME **/
+void reset_game(void)
+{
+  player_score = 0;
+  playerState = 1;
+  player_draw = 0;
+
+  cpu_score = 0;
+  cpu_draw = 0;
+
+  //create_deck();
+  return;
+}
+

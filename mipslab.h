@@ -73,6 +73,8 @@ extern const int SW2;
 extern const int SW3;
 extern const int SW4;
 
+extern int cards[14];
+
 #endif
 extern int playerState;
 extern int player_score;
@@ -88,4 +90,4 @@ int check_score(void);
 int compare_score(void);
 void show_all_hands(void);
 void reset_display(void);
-
+void reset_game(void);
