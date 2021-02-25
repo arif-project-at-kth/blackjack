@@ -187,3 +187,13 @@ int cards[14] = {
 /** USERS **/
 const int PLAYER = 1;
 const int DEALER = 0;
+const int BLACKJACK = 21;
+
+char* DISPLAY_PLAYER_NAME = "PLAYER 1: ";
+char* DISPLAY_DEALER_NAME = "DEALER: ";
+char* DISPLAY_DRAWN = "DRAWN CARDS: ";
+char* DISPLAY_PLAYER_WON = "PLAYER 1 WON";
+char* DISPLAY_DEALER_WON = "DEALER WON";
+char* DISPLAY_NEW_GAME = "NEW GAME? (BTN2)";
+char* DISPLAY_QUIT = "QUIT? (BTN1)";
+char* DISPLAY_GOOD_BYE = "GOOD BYE";

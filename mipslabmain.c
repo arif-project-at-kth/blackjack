@@ -83,7 +83,6 @@ NEWGAME:
 		if (check_score())
 		{
 			reset_display();
-			display_string(0, "BREAKING!");
 			display_update();
 
 			break;
@@ -98,19 +97,19 @@ NEWGAME:
 	// display_winner();
 	if (compare_score() == 1)
 	{
-		display_score(0, "PLayer won", player_score);
+		display_score(0, DISPLAY_PLAYER_WON, player_score);
 		display_update();
 	}
 	else
 	{
-		display_score(0, "Cpu won:", cpu_score);
+		display_score(0, DISPLAY_DEALER_WON, cpu_score);
 		display_update();
 	}
 
 	while (1)
 	{
-		display_string(2, "NEW GAME? (BTN2)");
-		display_string(3, "QUIT? (BTN1)");
+		display_string(2, DISPLAY_NEW_GAME);
+		display_string(3, DISPLAY_QUIT);
 		display_update();
 		if (is_pressed(BTN2))
 		{
@@ -124,7 +123,7 @@ NEWGAME:
 
 	/** GAMEPLAY END **/
 	reset_display();
-	display_string(0, "Good bye!");
+	display_string(0, DISPLAY_GOOD_BYE);
 	display_update();
 
 	return 0;

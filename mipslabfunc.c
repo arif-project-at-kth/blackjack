@@ -361,7 +361,9 @@ char *itoaconv(int num)
 int player_score = 0;
 int cpu_score = 0;
 
-/* Reseting TRISX - For Button - ARIF */
+/** RESETING TRISX
+ * For Button AND SLIDE SWITCH 
+ **/
 void reset(void)
 {
   TRISD = 0x0000;
@@ -369,7 +371,7 @@ void reset(void)
   return;
 }
 
-/* Inittialize - Buttons - ARIF */
+/** INITIALIZE **/
 void init_buttons(void)
 {
   reset();
@@ -379,14 +381,14 @@ void init_buttons(void)
   return;
 }
 
-/** Setup Interrupt **/
+/** SETUP INTERRUPT **/
 void setup_interrupt(void)
 {
   PR2 = (80000000 / 256) / 10;
   T2CON = 0x00;
-  T2CONSET = 0x70; // prescale
+  T2CONSET = 0x70;
   TMR2 = 0;
-  T2CONSET = 0x8000; // Start timer
+  T2CONSET = 0x8000;
   IPC(2) |= 0x10;
   IEC(0) = 0x100;
 
@@ -441,11 +443,11 @@ int card_value()
 /** DRAW CARD **/
 int player_draw;
 int cpu_draw;
-int playerState = 1;
+int player_state = 1;
 void drawCard(int player)
 {
 
-  if (player == 1 && playerState == 1)
+  if (player == 1 && player_state == 1)
   {
     player_draw++;
     player_score += card_value();
@@ -460,19 +462,7 @@ void drawCard(int player)
 /** CHECK HAND SCORE **/
 int check_score(void)
 {
-  if (player_score == 21)
-  {
-    return 1;
-  }
-  if (cpu_score == 21)
-  {
-    return 1;
-  }
-  if (playerState == 0)
-  {
-    return 1;
-  }
-  if (player_score > 21)
+  if (player_score == BLACKJACK || cpu_score == BLACKJACK || player_state == 0 || player_score > BLACKJACK)
   {
     return 1;
   }
@@ -482,15 +472,11 @@ int check_score(void)
 /** Compare Score**/
 int compare_score(void)
 {
-  if (player_score == 21)
+  if (player_score == BLACKJACK || cpu_score > BLACKJACK)
   {
     return 1;
   }
-  if (cpu_score > 21)
-  {
-    return 1;
-  }
-  if (player_score > cpu_score && player_score < 21)
+  if (player_score > cpu_score && player_score < BLACKJACK)
   {
     return 1;
   }
@@ -501,10 +487,10 @@ int compare_score(void)
 /** SHOW HAND **/
 void show_all_hands(void)
 {
-  display_score(0, "Player1:", player_score);
-  display_score(1, "Drawn Cards:", player_draw);
-  display_score(2, "Cpu:", cpu_score);
-  display_score(3, "Drawn Cards:", cpu_draw);
+  display_score(0, DISPLAY_PLAYER_NAME, player_score);
+  display_score(1, DISPLAY_DRAWN, player_draw);
+  display_score(2, DISPLAY_DEALER_NAME, cpu_score);
+  display_score(3, DISPLAY_DRAWN, cpu_draw);
   display_update();
   return;
 }
@@ -520,7 +506,7 @@ void reset_display(void)
 
 /** CREATE DECK **/
 int deck[3][14];
-void create_deck()
+void create_deck(void)
 {
   int i = 0;
   while (i != 4)
@@ -528,10 +514,10 @@ void create_deck()
     int j = 0;
     while (j < 15)
     {
-      deck[i][j] = cards[j]; 
+      deck[i][j] = cards[j];
     }
   }
-  
+
   return;
 }
 
@@ -539,13 +525,11 @@ void create_deck()
 void reset_game(void)
 {
   player_score = 0;
-  playerState = 1;
+  player_state = 1;
   player_draw = 0;
 
   cpu_score = 0;
   cpu_draw = 0;
 
-  //create_deck();
   return;
 }
-

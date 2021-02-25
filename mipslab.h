@@ -77,9 +77,19 @@ extern int cards[14];
 
 extern const int PLAYER;
 extern const int DEALER;
+extern const int BLACKJACK;
+extern char* DISPLAY_PLAYER_NAME;
+extern char* DISPLAY_DEALER_NAME;
+extern char* DISPLAY_DRAWN;
+extern char* DISPLAY_PLAYER_WON;
+extern char* DISPLAY_DEALER_WON;
+extern char* DISPLAY_NEW_GAME;
+extern char* DISPLAY_QUIT;
+extern char* DISPLAY_GOOD_BYE;
+
 
 #endif
-extern int playerState;
+extern int player_state;
 extern int player_score;
 extern int cpu_score;
 
