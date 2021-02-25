@@ -183,3 +183,7 @@ const int SW4 = 0x0800;
 int cards[14] = {
 	1,2,3,4,5,6,7,8,9,10,10,10,10,11
 };
+
+/** USERS **/
+const int PLAYER = 1;
+const int DEALER = 0;
