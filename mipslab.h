@@ -75,6 +75,9 @@ extern const int SW4;
 
 extern int cards[14];
 
+extern const int PLAYER;
+extern const int DEALER;
+
 #endif
 extern int playerState;
 extern int player_score;
