@@ -437,10 +437,10 @@ int is_pressed(const int button)
   return (button & (PORTD | PORTF)) ? 1 : 0;
 }
 int deck[4][13] = {
-    2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
-    2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
-    2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
-    2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
+   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 
+   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 
+   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 
+   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, };
 /** GET CARD VALUE **/
 // TODO GET VALUE FROM DECK[3][14]
 int card_value(int player)
@@ -467,7 +467,7 @@ if ( player == 1){
   }
 
   int input = 1;
-  while (cardvalue == 11)
+  while (cardvalue == 1)
   {
     //display_string(0, "DRAWN CARD: A");
     display_string(1, "Choose value: ");
