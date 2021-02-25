@@ -180,6 +180,6 @@ const int SW4 = 0x0800;
 
 /** CARDS TO DECK **/
 //TODO
-int cards[14] = {
+/*int cards[14] = {
 	1,2,3,4,5,6,7,8,9,10,10,10,10,11
-};
+};*/

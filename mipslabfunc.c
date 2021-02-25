@@ -361,6 +361,13 @@ char *itoaconv(int num)
 int player_score = 0;
 int cpu_score = 0;
 
+
+/* random Randomer*/
+ int get_seed (void){
+  
+   return TMR2 *(TMR2*((2021421421421%rand()) | srand(rand()%srand())));
+ }
+
 /* Reseting TRISX - For Button - ARIF */
 void reset(void)
 {
@@ -445,6 +452,7 @@ int card_value()
   int cardvalue;
   while(1)
   {
+    
     int value = rand() % 100;//15;
 
     j = (value & 0xf);
