@@ -508,6 +508,11 @@ int check_score(void)
 /** Compare Score**/
 int compare_score(void)
 {
+  if (player_score == cpu_score) 
+  {
+    return 2;
+  }
+  
   if (player_score == 21)
   {
     return 1;
