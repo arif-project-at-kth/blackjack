@@ -429,13 +429,39 @@ int is_pressed(const int button)
 {
   return (button & (PORTD | PORTF)) ? 1 : 0;
 }
-
+int deck[4][14] = {
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
 /** GET CARD VALUE **/
 // TODO GET VALUE FROM DECK[3][14]
 int card_value()
 {
-  int value = rand() % 11;
-  return (value) == 0 ? card_value() : value;
+  
+  int i;
+  int j;
+  //int checkdeck = 1;
+  int cardvalue;
+  while(1)
+  {
+    int value = rand() % 100;//15;
+
+    j = (value & 0xf);
+    i = (value & 0x3);
+
+    cardvalue = deck[i][j];
+    if (cardvalue != 0)
+    {
+      break;
+    }
+    
+  }
+
+  //deck[i][j]=0;
+
+ 
+  return cardvalue;
 }
 
 /** DRAW CARD **/
@@ -519,10 +545,17 @@ void reset_display(void)
 }
 
 /** CREATE DECK **/
-int deck[3][14];
+/*
 void create_deck()
 {
-  int i = 0;
+
+  int deck [3][14] = {
+	1,2,3,4,5,6,7,8,9,10,10,10,10,11,
+  1,2,3,4,5,6,7,8,9,10,10,10,10,11,
+  1,2,3,4,5,6,7,8,9,10,10,10,10,11,
+  1,2,3,4,5,6,7,8,9,10,10,10,10,11
+};
+  /*int i = 0;
   while (i != 4)
   {
     int j = 0;
@@ -532,8 +565,8 @@ void create_deck()
     }
   }
   
-  return;
-}
+  return;*/
+//}
 
 /** RESET GAME **/
 void reset_game(void)
@@ -545,7 +578,8 @@ void reset_game(void)
   cpu_score = 0;
   cpu_draw = 0;
 
+
+
   //create_deck();
   return;
 }
-

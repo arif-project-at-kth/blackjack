@@ -104,9 +104,6 @@ NEWGAME:
 
 	while (1)
 	{
-		display_string(2, "NEW GAME? (BTN2)");
-		display_string(3, "QUIT? (BTN1)");
-		display_update();
 		if (is_pressed(BTN2))
 		{
 			goto NEWGAME;
@@ -115,6 +112,9 @@ NEWGAME:
 		{
 			break;
 		}
+		display_string(2, "NEW GAME? (BTN2)");
+		display_string(3, "QUIT? (BTN1)");
+		display_update();
 	}
 
 	reset_display();

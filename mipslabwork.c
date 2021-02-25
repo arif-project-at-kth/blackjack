@@ -35,7 +35,7 @@ void user_isr(void)
         {
             // display_string(1, "stand");
             // display_update();
-            while (player_score > cpu_score && cpu_score < 21|| cpu_score <16){
+            while (player_score > cpu_score && cpu_score < 21|| cpu_score <17){
                 drawCard(0);
                 show_all_hands();
                 playerState = 0;
