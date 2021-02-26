@@ -497,9 +497,10 @@ int card_value(int player)
   int i;
   int j;
   int cardvalue;
- // "Ai" to controll if 'A' is 1 or 11 for player.
+  // "Ai" to controll if 'A' is 1 or 11 for player.
   if (player == 1)
-  {while (1)
+  {
+    while (1)
     {
 
       int value = rand() % 100; //15;
@@ -508,17 +509,22 @@ int card_value(int player)
       i = (value & 0x3);
 
       cardvalue = deck[i][j];
+      if (cardvalue == 1 && player_score < 11)
+      {
+        return 11;
+      }
+
+      else if (cardvalue == 1 && player_score >= 11)
+      {
+        return 1;
+      }
       if (cardvalue != 0)
       {
         break;
       }
-      if (cardvalue == 1 && player_score >= 11)
-        return 1;
-
-      if (cardvalue == 1 && player_score <= 10)
-        return 11;
+      
     }
-   /* while (1)
+    /* while (1)
     {
 
       int value = rand() % 100; //15;
@@ -562,7 +568,7 @@ int card_value(int player)
    
       */
 
-     // "AI" to controll if cpu wants 'A' to be 1 or 11.
+    // "AI" to controll if cpu wants 'A' to be 1 or 11.
   }
   if (player == 0)
   {
@@ -575,19 +581,33 @@ int card_value(int player)
       i = (value & 0x3);
 
       cardvalue = deck[i][j];
+      if (cardvalue == 1 && cpu_score < 11)
+      {
+        return 11;
+      }
+
+      else if (cardvalue == 1 && cpu_score >= 11)
+      {
+        return 1;
+      }
       if (cardvalue != 0)
       {
         break;
       }
-      if (cardvalue == 1 && cpu_score >= 11)
-        return 1;
-
-      if (cardvalue == 1 && cpu_score <= 10)
+      /*  if (cardvalue == 1 && cpu_score < 11)
+      {
         return 11;
+      }
+      
+    
+      if (cardvalue == 1 && cpu_score >= 11)
+      {
+        return 1;
+      }*/
     }
   }
 
-return cardvalue;
+  return cardvalue;
 }
 
 /** DRAW CARD **/
