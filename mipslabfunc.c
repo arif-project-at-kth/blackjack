@@ -437,10 +437,59 @@ int is_pressed(const int button)
   return (button & (PORTD | PORTF)) ? 1 : 0;
 }
 int deck[4][13] = {
-   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 
-   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 
-   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 
-   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, };
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    10,
+    10,
+    10,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    10,
+    10,
+    10,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    10,
+    10,
+    10,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    10,
+    10,
+    10,
+};
 /** GET CARD VALUE **/
 // TODO GET VALUE FROM DECK[3][14]
 int card_value(int player)
@@ -448,76 +497,97 @@ int card_value(int player)
   int i;
   int j;
   int cardvalue;
-
-if ( player == 1){
-  
-  while (1)
-  {
-
-    int value = rand() % 100; //15;
-
-    j = (value & 0xf);
-    i = (value & 0x3);
-
-    cardvalue = deck[i][j];
-    if (cardvalue != 0)
+ // "Ai" to controll if 'A' is 1 or 11 for player.
+  if (player == 1)
+  {while (1)
     {
-      break;
-    }
-  }
 
-  int input = 1;
-  while (cardvalue == 1)
-  {
-    //display_string(0, "DRAWN CARD: A");
-    display_string(1, "Choose value: ");
-    display_string(2, "BTN2 = 11p");
-    display_string(3, "BTN1 = 1p");
-    display_update();
-  if (is_pressed(BTN2) && input == 1)
-    {
-      input = 0;
-      return 11;
-    }
-    if (is_pressed(BTN1)&& input == 1)
-    {
-      input = 0;
-      return 1;
-    }
-    
-  }
+      int value = rand() % 100; //15;
 
-  /*  while(is_pressed(BTN2)) {
+      j = (value & 0xf);
+      i = (value & 0x3);
+
+      cardvalue = deck[i][j];
+      if (cardvalue != 0)
+      {
+        break;
+      }
+      if (cardvalue == 1 && player_score >= 11)
+        return 1;
+
+      if (cardvalue == 1 && player_score <= 10)
+        return 11;
+    }
+   /* while (1)
+    {
+
+      int value = rand() % 100; //15;
+
+      j = (value & 0xf);
+      i = (value & 0x3);
+
+      cardvalue = deck[i][j];
+      if (cardvalue != 0)
+      {
+        break;
+      }
+    }
+
+    int input = 1;
+    while (cardvalue == 1)
+    {
+
+      //display_string(0, "DRAWN CARD: A");
+      display_string(1, "Choose value: ");
+      display_string(2, "BTN2 = 11p");
+      display_string(3, "BTN1 = 1p");
+      display_update();
+      if (is_pressed(BTN2) && input == 1)
+      {
+        input = 0;
+        return 11;
+      }
+      if (is_pressed(BTN1) && input == 1)
+      {
+        input = 0;
+        return 1;
+      }
+    }
+
+    /*  while(is_pressed(BTN2)) {
       if (input)
       {
         cardvalue = 11;
       }
+   
       */
-}
-if (player == 0){
-   while (1)
+
+     // "AI" to controll if cpu wants 'A' to be 1 or 11.
+  }
+  if (player == 0)
   {
-
-    int value = rand() % 100; //15;
-
-    j = (value & 0xf);
-    i = (value & 0x3);
-
-    cardvalue = deck[i][j];
-    if (cardvalue != 0)
+    while (1)
     {
-      break;
-    }
-    if (cardvalue == 11 && cpu_score >= 11){
-      return 1;
 
-      if (cardvalue ==11 && cpu_score <= 10 )
-      return 11;
-      
+      int value = rand() % 100; //15;
+
+      j = (value & 0xf);
+      i = (value & 0x3);
+
+      cardvalue = deck[i][j];
+      if (cardvalue != 0)
+      {
+        break;
+      }
+      if (cardvalue == 1 && cpu_score >= 11)
+        return 1;
+
+      if (cardvalue == 1 && cpu_score <= 10)
+        return 11;
     }
-}
-}
-  return cardvalue;
+  }
+
+return cardvalue;
 }
 
 /** DRAW CARD **/
