@@ -361,10 +361,12 @@ char *itoaconv(int num)
 int player_score = 0;
 int cpu_score = 0;
 
-/* random Randomer*/
-int get_seed(void)
+/**
+ * RANDOM GENERATED SEED 
+ * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
+ **/
+int generate_seed(void)
 {
-
   return TMR2 * (TMR2 * ((2021421421421 % rand()) | srand(rand() % srand())));
 }
 

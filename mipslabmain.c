@@ -66,7 +66,7 @@ int main(void)
 	startup();
 	display_init();
 	init();
-	srand(get_seed());
+	srand(generate_seed());
 NEWGAME:
 	reset_game();
 	//start of the round deals 2 cards for plater 1 of cpu.
