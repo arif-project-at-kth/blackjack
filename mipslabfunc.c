@@ -695,30 +695,6 @@ void reset_display(void)
   display_string(3, "");
 }
 
-/** CREATE DECK **/
-/*
-void create_deck()
-{
-
-  int deck [3][14] = {
-	1,2,3,4,5,6,7,8,9,10,10,10,10,11,
-  1,2,3,4,5,6,7,8,9,10,10,10,10,11,
-  1,2,3,4,5,6,7,8,9,10,10,10,10,11,
-  1,2,3,4,5,6,7,8,9,10,10,10,10,11
-};
-  /*int i = 0;
-  while (i != 4)
-  {
-    int j = 0;
-    while (j < 15)
-    {
-      deck[i][j] = cards[j]; 
-    }
-  }
-  
-  return;*/
-//}
-
 /** RESET GAME **/
 void reset_game(void)
 {
