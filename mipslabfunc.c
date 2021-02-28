@@ -494,122 +494,27 @@ int deck[4][13] = {
 };
 /** GET CARD VALUE **/
 // TODO GET VALUE FROM DECK[3][14]
-int card_value(int player)
+int card_value(const int player, const int score)
 {
-  int i;
-  int j;
-  int cardvalue;
-  // "Ai" to controll if 'A' is 1 or 11 for player.
-  if (player == 1)
+  int i, j, value;
+  while (1)
   {
-    while (1)
+    int number = rand() % 100;
+    value = deck[i][j];
+    if (value == 1 && score < 11)
     {
-
-      int value = rand() % 100; //15;
-
-      j = (value & 0xf);
-      i = (value & 0x3);
-
-      cardvalue = deck[i][j];
-      if (cardvalue == 1 && player_score < 11)
-      {
-        return 11;
-      }
-
-      else if (cardvalue == 1 && player_score >= 11)
-      {
-        return 1;
-      }
-      if (cardvalue != 0)
-      {
-        break;
-      }
-      
+      return 11;
     }
-    /* while (1)
+    else if (value == 1 && score >= 11)
     {
-
-      int value = rand() % 100; //15;
-
-      j = (value & 0xf);
-      i = (value & 0x3);
-
-      cardvalue = deck[i][j];
-      if (cardvalue != 0)
-      {
-        break;
-      }
+      return 1;
     }
-
-    int input = 1;
-    while (cardvalue == 1)
+    if (value != 0)
     {
-
-      //display_string(0, "DRAWN CARD: A");
-      display_string(1, "Choose value: ");
-      display_string(2, "BTN2 = 11p");
-      display_string(3, "BTN1 = 1p");
-      display_update();
-      if (is_pressed(BTN2) && input == 1)
-      {
-        input = 0;
-        return 11;
-      }
-      if (is_pressed(BTN1) && input == 1)
-      {
-        input = 0;
-        return 1;
-      }
-    }
-
-    /*  while(is_pressed(BTN2)) {
-      if (input)
-      {
-        cardvalue = 11;
-      }
-   
-      */
-
-    // "AI" to controll if cpu wants 'A' to be 1 or 11.
-  }
-  if (player == 0)
-  {
-    while (1)
-    {
-
-      int value = rand() % 100; //15;
-
-      j = (value & 0xf);
-      i = (value & 0x3);
-
-      cardvalue = deck[i][j];
-      if (cardvalue == 1 && cpu_score < 11)
-      {
-        return 11;
-      }
-
-      else if (cardvalue == 1 && cpu_score >= 11)
-      {
-        return 1;
-      }
-      if (cardvalue != 0)
-      {
-        break;
-      }
-      /*  if (cardvalue == 1 && cpu_score < 11)
-      {
-        return 11;
-      }
-      
-    
-      if (cardvalue == 1 && cpu_score >= 11)
-      {
-        return 1;
-      }*/
+      break;
     }
   }
-
-  return cardvalue;
+  return value;
 }
 
 /** DRAW CARD **/
@@ -622,12 +527,12 @@ void drawCard(int player)
   if (player == 1 && playerState == 1)
   {
     player_draw++;
-    player_score += card_value(player);
+    player_score += card_value(player, player_score);
   }
   if (player == 0)
   {
     cpu_draw++;
-    cpu_score += card_value(player);
+    cpu_score += card_value(player, cpu_score);
   }
 }
 
