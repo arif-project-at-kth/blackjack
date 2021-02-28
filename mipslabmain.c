@@ -92,21 +92,7 @@ NEWGAME:
 	//show_all_hands();
 	reset_display();
 
-	if (compare_score() == 2)
-	{
-		display_string(0, "Draw");
-		display_update();
-	}
-	else if (compare_score() == 1)
-	{
-		display_score(0, "PLayer won", player_score);
-		display_update();
-	}
-	else
-	{
-		display_score(0, "Cpu won:", cpu_score);
-		display_update();
-	}
+	display_winner();
 
 	while (1)
 	{

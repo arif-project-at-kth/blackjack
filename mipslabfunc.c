@@ -433,6 +433,25 @@ void display_score(int line, char *s, int score)
     }
 }
 
+/* DISPLAY WINNER */
+void display_winner(void)
+{
+  if (compare_score() == 2)
+	{
+		display_string(0, "Draw");
+	}
+	else if (compare_score() == 1)
+	{
+		display_score(0, "PLayer won", player_score);
+	}
+	else
+	{
+		display_score(0, "Cpu won:", cpu_score);
+	}
+	display_update();
+  return;
+}
+
 /** Button pressed **/
 int is_pressed(const int button)
 {
