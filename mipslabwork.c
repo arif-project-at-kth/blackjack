@@ -36,7 +36,7 @@ void user_isr(void)
             while (player_score > dealer_score && dealer_score < BLACKJACK || dealer_score < 17)
             {
                 draw_card(DEALER);
-                show_all_hands();
+                display_all_hands();
                 player_state = 0;
             }
 
@@ -59,5 +59,5 @@ void init(void)
 /* This function is called repetitively from the main program */
 void labwork(void)
 {
-    show_all_hands();
+    display_all_hands();
 }

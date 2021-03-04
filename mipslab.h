@@ -101,6 +101,6 @@ int is_pressed(int);
 void draw_card(int)
 int check_score(void);
 int compare_score(void);
-void show_all_hands(void);
+void display_all_hands(void);
 void reset_display(void);
 void reset_game(void);

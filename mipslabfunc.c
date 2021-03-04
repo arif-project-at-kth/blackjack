@@ -497,11 +497,10 @@ int card_value(const int score)
 
 /** DRAW CARD **/
 int player_draw;
-int cpu_draw;
+int dealer_draw;
 int player_state = 1;
 void draw_card(int player)
 {
-
   if (player == 1 && player_state == 1)
   {
     player_draw++;
@@ -509,7 +508,7 @@ void draw_card(int player)
   }
   if (player == 0)
   {
-    cpu_draw++;
+    dealer_draw++;
     dealer_score += card_value(dealer_score);
   }
 }
@@ -540,12 +539,12 @@ int compare_score(void)
 }
 
 /** SHOW HAND **/
-void show_all_hands(void)
+void display_all_hands(void)
 {
   display_score(0, DISPLAY_PLAYER_NAME, player_score);
   display_score(1, DISPLAY_DRAWN, player_draw);
   display_score(2, DISPLAY_DEALER_NAME, dealer_score);
-  display_score(3, DISPLAY_DRAWN, cpu_draw);
+  display_score(3, DISPLAY_DRAWN, dealer_draw);
   display_update();
   return;
 }
@@ -567,7 +566,7 @@ void reset_game(void)
   player_draw = 0;
 
   dealer_score = 0;
-  cpu_draw = 0;
+  dealer_draw = 0;
 
   return;
 }
