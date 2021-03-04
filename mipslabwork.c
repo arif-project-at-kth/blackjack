@@ -52,6 +52,7 @@ void init(void)
 {
     init_buttons();
     setup_interrupt();
+	srand(generate_seed());
     return;
 }
 

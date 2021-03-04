@@ -69,8 +69,6 @@ int main(void)
 	init();
 
 	/** GAMEPLAY **/
-	srand(generate_seed());
-
 NEWGAME:
 
 	reset_game();
@@ -94,9 +92,6 @@ NEWGAME:
 
 	/** GAME END **/
 	reset_display();
-
-	// TODO CONVERT TO A SINGLE FUNCTION.
-	// display_winner(); TODO Make it better
 	display_winner();
 
 	while (1)
