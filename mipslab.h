@@ -73,8 +73,6 @@ extern const int SW2;
 extern const int SW3;
 extern const int SW4;
 
-extern int cards[14];
-
 extern const int PLAYER;
 extern const int DEALER;
 extern const int BLACKJACK;
@@ -87,16 +85,17 @@ extern char* DISPLAY_NEW_GAME;
 extern char* DISPLAY_QUIT;
 extern char* DISPLAY_GOOD_BYE;
 
-
-#endif
 extern int player_state;
 extern int player_score;
 extern int cpu_score;
+
+#endif
 
 /** Functions **/
 void init_buttons(void);
 void setup_interrupt(void);
 void display_score(int, char*, int);
+void display_winner(void);
 int is_pressed(int);
 int check_turn(void);
 int check_score(void);

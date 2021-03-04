@@ -69,6 +69,8 @@ int main(void)
 	init();
 
 	/** GAMEPLAY **/
+	srand(generate_seed());
+ 
 NEWGAME:
 
 	reset_game();
@@ -94,23 +96,11 @@ NEWGAME:
 	reset_display();
 
 	// TODO CONVERT TO A SINGLE FUNCTION.
-	// display_winner();
-	if (compare_score() == 1)
-	{
-		display_score(0, DISPLAY_PLAYER_WON, player_score);
-		display_update();
-	}
-	else
-	{
-		display_score(0, DISPLAY_DEALER_WON, cpu_score);
-		display_update();
-	}
+	// display_winner(); TODO Make it better
+	display_winner();
 
 	while (1)
 	{
-		display_string(2, DISPLAY_NEW_GAME);
-		display_string(3, DISPLAY_QUIT);
-		display_update();
 		if (is_pressed(BTN2))
 		{
 			goto NEWGAME;
@@ -119,6 +109,10 @@ NEWGAME:
 		{
 			break;
 		}
+		
+		display_string(2, DISPLAY_NEW_GAME);
+		display_string(3, DISPLAY_QUIT);
+		display_update();
 	}
 
 	/** GAMEPLAY END **/
