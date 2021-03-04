@@ -405,7 +405,8 @@ void setup_interrupt(void)
   return;
 }
 
-/** DISPLAY WITH SCORE **/
+/** DISPLAY WITH SCORE
+ * Build upon display_score(int, char*) **/
 void display_score(int line, char *s, int score)
 {
   int i;
