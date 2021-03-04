@@ -464,10 +464,11 @@ int is_pressed(const int button)
 int deck[4][13] = {
     1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
     1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
 };
 /** GET CARD VALUE **/
-// TODO GET VALUE FROM DECK[3][14]
-int card_value(const int player, const int score)
+int card_value(const int score)
 {
   int i, j, value;
   while (1)
@@ -504,12 +505,12 @@ void draw_card(int player)
   if (player == 1 && player_state == 1)
   {
     player_draw++;
-    player_score += card_value(player, player_score);
+    player_score += card_value(player_score);
   }
   if (player == 0)
   {
     cpu_draw++;
-    dealer_score += card_value(player, dealer_score);
+    dealer_score += card_value(dealer_score);
   }
 }
 
