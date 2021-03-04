@@ -440,15 +440,15 @@ void display_winner(void)
 {
   if (compare_score() == 2)
   {
-    display_string(0, "Draw");
+    display_string(0, DISPLAY_DRAW_GAME);
   }
   else if (compare_score() == 1)
   {
-    display_score(0, "PLayer won", player_score);
+    display_score(0, DISPLAY_PLAYER_WON, player_score);
   }
   else
   {
-    display_score(0, "Cpu won:", cpu_score);
+    display_score(0, DISPLAY_DEALER_WON, cpu_score);
   }
   display_update();
   return;
@@ -459,59 +459,10 @@ int is_pressed(const int button)
 {
   return (button & (PORTD | PORTF)) ? 1 : 0;
 }
+
 int deck[4][13] = {
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    10,
-    10,
-    10,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    10,
-    10,
-    10,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    10,
-    10,
-    10,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    10,
-    10,
-    10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
 };
 /** GET CARD VALUE **/
 // TODO GET VALUE FROM DECK[3][14]

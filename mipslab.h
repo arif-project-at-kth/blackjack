@@ -81,6 +81,7 @@ extern char* DISPLAY_DEALER_NAME;
 extern char* DISPLAY_DRAWN;
 extern char* DISPLAY_PLAYER_WON;
 extern char* DISPLAY_DEALER_WON;
+extern char* DISPLAY_DRAW_GAME;
 extern char* DISPLAY_NEW_GAME;
 extern char* DISPLAY_QUIT;
 extern char* DISPLAY_GOOD_BYE;
