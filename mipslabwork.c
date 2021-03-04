@@ -33,7 +33,8 @@ void user_isr(void)
         // TODO TURN THIS INTO a FUNCTION.
         if (inputB == 1)
         {
-            while (player_score > cpu_score && cpu_score < 21|| cpu_score <17){
+            while (player_score > cpu_score && cpu_score < 21 || cpu_score < 17)
+            {
                 drawCard(0);
                 show_all_hands();
                 player_state = 0;

@@ -70,11 +70,11 @@ int main(void)
 
 	/** GAMEPLAY **/
 	srand(generate_seed());
- 
+
 NEWGAME:
 
 	reset_game();
-	
+
 	drawCard(PLAYER);
 	drawCard(DEALER);
 	drawCard(PLAYER);
@@ -109,7 +109,7 @@ NEWGAME:
 		{
 			break;
 		}
-		
+
 		display_string(2, DISPLAY_NEW_GAME);
 		display_string(3, DISPLAY_QUIT);
 		display_update();

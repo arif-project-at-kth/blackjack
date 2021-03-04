@@ -439,18 +439,18 @@ void display_score(int line, char *s, int score)
 void display_winner(void)
 {
   if (compare_score() == 2)
-	{
-		display_string(0, "Draw");
-	}
-	else if (compare_score() == 1)
-	{
-		display_score(0, "PLayer won", player_score);
-	}
-	else
-	{
-		display_score(0, "Cpu won:", cpu_score);
-	}
-	display_update();
+  {
+    display_string(0, "Draw");
+  }
+  else if (compare_score() == 1)
+  {
+    display_score(0, "PLayer won", player_score);
+  }
+  else
+  {
+    display_score(0, "Cpu won:", cpu_score);
+  }
+  display_update();
   return;
 }
 
@@ -521,9 +521,9 @@ int card_value(const int player, const int score)
   while (1)
   {
     int number = rand() % 100;
-      
-      j = (number & 0xf);
-      i = (number & 0x3);
+
+    j = (number & 0xf);
+    i = (number & 0x3);
 
     value = deck[i][j];
     if (value == 1 && score < 11)
