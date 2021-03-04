@@ -358,8 +358,20 @@ char *itoaconv(int num)
  * 2021-02-22
  **/
 
+/** VARIABLES **/
 int player_score = 0;
+int player_state = 1;
+int player_draw;
+
+int dealer_draw;
 int dealer_score = 0;
+
+int deck[4][13] = {
+    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
+};
 
 /**
  * RANDOM GENERATED SEED 
@@ -461,12 +473,6 @@ int is_pressed(const int button)
   return (button & (PORTD | PORTF)) ? 1 : 0;
 }
 
-int deck[4][13] = {
-    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
-    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
-    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
-    1,2,3,4,5,6,7,8,9,10,10,10,10,1,2,3,4,5,6,7,8,9,10,10,10,10,
-};
 /** GET CARD VALUE **/
 int card_value(const int score)
 {
@@ -496,9 +502,6 @@ int card_value(const int score)
 }
 
 /** DRAW CARD **/
-int player_draw;
-int dealer_draw;
-int player_state = 1;
 void draw_card(int player)
 {
   if (player == 1 && player_state == 1)
