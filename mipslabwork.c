@@ -33,7 +33,7 @@ void user_isr(void)
         // TODO TURN THIS INTO a FUNCTION.
         if (standing == 1)
         {
-            while (player_score > cpu_score && cpu_score < BLACKJACK || cpu_score < 17)
+            while (player_score > dealer_score && dealer_score < BLACKJACK || dealer_score < 17)
             {
                 draw_card(DEALER);
                 show_all_hands();

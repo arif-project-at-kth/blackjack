@@ -88,7 +88,7 @@ extern char* DISPLAY_GOOD_BYE;
 
 extern int player_state;
 extern int player_score;
-extern int cpu_score;
+extern int dealer_score;
 
 #endif
 

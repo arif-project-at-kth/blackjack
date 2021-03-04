@@ -359,7 +359,7 @@ char *itoaconv(int num)
  **/
 
 int player_score = 0;
-int cpu_score = 0;
+int dealer_score = 0;
 
 /**
  * RANDOM GENERATED SEED 
@@ -448,7 +448,7 @@ void display_winner(void)
   }
   else
   {
-    display_score(0, DISPLAY_DEALER_WON, cpu_score);
+    display_score(0, DISPLAY_DEALER_WON, dealer_score);
   }
   display_update();
   return;
@@ -508,14 +508,14 @@ void draw_card(int player)
   if (player == 0)
   {
     cpu_draw++;
-    cpu_score += card_value(player, cpu_score);
+    dealer_score += card_value(player, dealer_score);
   }
 }
 
 /** CHECK HAND SCORE **/
 int check_score(void)
 {
-  if (player_score == BLACKJACK || cpu_score == BLACKJACK || player_state == 0 || player_score > BLACKJACK)
+  if (player_score == BLACKJACK || dealer_score == BLACKJACK || player_state == 0 || player_score > BLACKJACK)
   {
     return 1;
   }
@@ -525,11 +525,11 @@ int check_score(void)
 /** Compare Score**/
 int compare_score(void)
 {
-  if (player_score == BLACKJACK || cpu_score > BLACKJACK)
+  if (player_score == BLACKJACK || dealer_score > BLACKJACK)
   {
     return 1;
   }
-  if (player_score > cpu_score && player_score < BLACKJACK)
+  if (player_score > dealer_score && player_score < BLACKJACK)
   {
     return 1;
   }
@@ -542,7 +542,7 @@ void show_all_hands(void)
 {
   display_score(0, DISPLAY_PLAYER_NAME, player_score);
   display_score(1, DISPLAY_DRAWN, player_draw);
-  display_score(2, DISPLAY_DEALER_NAME, cpu_score);
+  display_score(2, DISPLAY_DEALER_NAME, dealer_score);
   display_score(3, DISPLAY_DRAWN, cpu_draw);
   display_update();
   return;
@@ -564,7 +564,7 @@ void reset_game(void)
   player_state = 1;
   player_draw = 0;
 
-  cpu_score = 0;
+  dealer_score = 0;
   cpu_draw = 0;
 
   return;
