@@ -17,30 +17,30 @@
 /* Interrupt Service Routine */
 void user_isr(void)
 {
-    int input = 1;
+    int hitting = 1;
     while (is_pressed(BTN4))
     {
         // TODO TURN THIS INTO a FUNCTION.
-        if (input == 1)
+        if (hitting == 1)
         {
-            drawCard(1);
-            input = 0;
+            draw_card(PLAYER);
+            hitting = 0;
         }
     }
-    int inputB = 1;
+    int standing = 1;
     while (is_pressed(BTN3))
     {
         // TODO TURN THIS INTO a FUNCTION.
-        if (inputB == 1)
+        if (standing == 1)
         {
-            while (player_score > cpu_score && cpu_score < 21 || cpu_score < 17)
+            while (player_score > cpu_score && cpu_score < BLACKJACK || cpu_score < 17)
             {
-                drawCard(0);
+                draw_card(DEALER);
                 show_all_hands();
                 player_state = 0;
             }
 
-            inputB = 0;
+            standing = 0;
         }
     }
     IFS(0) = 0;

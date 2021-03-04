@@ -98,7 +98,7 @@ void setup_interrupt(void);
 void display_score(int, char*, int);
 void display_winner(void);
 int is_pressed(int);
-int check_turn(void);
+void draw_card(int)
 int check_score(void);
 int compare_score(void);
 void show_all_hands(void);

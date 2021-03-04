@@ -497,7 +497,7 @@ int card_value(const int player, const int score)
 int player_draw;
 int cpu_draw;
 int player_state = 1;
-void drawCard(int player)
+void draw_card(int player)
 {
 
   if (player == 1 && player_state == 1)

@@ -73,9 +73,9 @@ NEWGAME:
 
 	reset_game();
 
-	drawCard(PLAYER);
-	drawCard(DEALER);
-	drawCard(PLAYER);
+	draw_card(PLAYER);
+	draw_card(DEALER);
+	draw_card(PLAYER);
 
 	/** PLAY GAME **/
 	while (1)
