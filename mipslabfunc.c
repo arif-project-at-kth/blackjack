@@ -361,6 +361,15 @@ char *itoaconv(int num)
 int player_score = 0;
 int cpu_score = 0;
 
+/**
+ * RANDOM GENERATED SEED 
+ * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
+ **/
+int generate_seed(void)
+{
+  return TMR2 * (TMR2 * ((2021421421421 % rand()) | srand(rand() % srand())));
+}
+
 /* Reseting TRISX - For Button - ARIF */
 void reset(void)
 {
@@ -424,18 +433,111 @@ void display_score(int line, char *s, int score)
     }
 }
 
+/* DISPLAY WINNER */
+void display_winner(void)
+{
+  if (compare_score() == 2)
+	{
+		display_string(0, "Draw");
+	}
+	else if (compare_score() == 1)
+	{
+		display_score(0, "PLayer won", player_score);
+	}
+	else
+	{
+		display_score(0, "Cpu won:", cpu_score);
+	}
+	display_update();
+  return;
+}
+
 /** Button pressed **/
 int is_pressed(const int button)
 {
   return (button & (PORTD | PORTF)) ? 1 : 0;
 }
-
+int deck[4][13] = {
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    10,
+    10,
+    10,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    10,
+    10,
+    10,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    10,
+    10,
+    10,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    10,
+    10,
+    10,
+};
 /** GET CARD VALUE **/
 // TODO GET VALUE FROM DECK[3][14]
-int card_value()
+int card_value(const int player, const int score)
 {
-  int value = rand() % 11;
-  return (value) == 0 ? card_value() : value;
+  int i, j, value;
+  while (1)
+  {
+    int number = rand() % 100;
+      
+      j = (number & 0xf);
+      i = (number & 0x3);
+
+    value = deck[i][j];
+    if (value == 1 && score < 11)
+    {
+      return 11;
+    }
+    else if (value == 1 && score >= 11)
+    {
+      return 1;
+    }
+    if (value != 0)
+    {
+      break;
+    }
+  }
+  return value;
 }
 
 /** DRAW CARD **/
@@ -448,12 +550,12 @@ void drawCard(int player)
   if (player == 1 && playerState == 1)
   {
     player_draw++;
-    player_score += card_value();
+    player_score += card_value(player, player_score);
   }
   if (player == 0)
   {
     cpu_draw++;
-    cpu_score += card_value();
+    cpu_score += card_value(player, cpu_score);
   }
 }
 
@@ -482,6 +584,11 @@ int check_score(void)
 /** Compare Score**/
 int compare_score(void)
 {
+  if (player_score == cpu_score)
+  {
+    return 2;
+  }
+
   if (player_score == 21)
   {
     return 1;
@@ -518,23 +625,6 @@ void reset_display(void)
   display_string(3, "");
 }
 
-/** CREATE DECK **/
-int deck[3][14];
-void create_deck()
-{
-  int i = 0;
-  while (i != 4)
-  {
-    int j = 0;
-    while (j < 15)
-    {
-      deck[i][j] = cards[j]; 
-    }
-  }
-  
-  return;
-}
-
 /** RESET GAME **/
 void reset_game(void)
 {
@@ -548,4 +638,3 @@ void reset_game(void)
   //create_deck();
   return;
 }
-

@@ -66,6 +66,7 @@ int main(void)
 	startup();
 	display_init();
 	init();
+	srand(generate_seed());
 NEWGAME:
 	reset_game();
 	//start of the round deals 2 cards for plater 1 of cpu.
@@ -91,22 +92,10 @@ NEWGAME:
 	//show_all_hands();
 	reset_display();
 
-	if (compare_score() == 1)
-	{
-		display_score(0, "PLayer won", player_score);
-		display_update();
-	}
-	else
-	{
-		display_score(0, "Cpu won:", cpu_score);
-		display_update();
-	}
+	display_winner();
 
 	while (1)
 	{
-		display_string(2, "NEW GAME? (BTN2)");
-		display_string(3, "QUIT? (BTN1)");
-		display_update();
 		if (is_pressed(BTN2))
 		{
 			goto NEWGAME;
@@ -115,6 +104,9 @@ NEWGAME:
 		{
 			break;
 		}
+		display_string(2, "NEW GAME? (BTN2)");
+		display_string(3, "QUIT? (BTN1)");
+		display_update();
 	}
 
 	reset_display();

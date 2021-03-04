@@ -73,8 +73,6 @@ extern const int SW2;
 extern const int SW3;
 extern const int SW4;
 
-extern int cards[14];
-
 #endif
 extern int playerState;
 extern int player_score;
@@ -84,6 +82,7 @@ extern int cpu_score;
 void init_buttons(void);
 void setup_interrupt(void);
 void display_score(int, char*, int);
+void display_winner(void);
 int is_pressed(int);
 int check_turn(void);
 int check_score(void);
