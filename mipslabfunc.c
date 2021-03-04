@@ -519,6 +519,10 @@ int card_value(const int player, const int score)
   while (1)
   {
     int number = rand() % 100;
+      
+      j = (number & 0xf);
+      i = (number & 0x3);
+
     value = deck[i][j];
     if (value == 1 && score < 11)
     {
