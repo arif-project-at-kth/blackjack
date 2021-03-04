@@ -11,9 +11,9 @@
 #include <pic32mx.h> /* Declarations of system-specific addresses etc */
 #include "mipslab.h" /* Declatations for these labs */
 
-void *stdin, *stdout, *stderr;
+//	void *stdin, *stdout, *stderr;	// Used for -c99 in compiler
 
-/** Starting up project (FROM LAB3) **/
+/** STARTING UP PROJECT (FROM LAB3) **/
 void startup(void)
 {
 	/*
@@ -63,35 +63,40 @@ void startup(void)
 
 int main(void)
 {
+	/** INITIALIZE **/
 	startup();
 	display_init();
 	init();
+
+	/** GAMEPLAY **/
 	srand(generate_seed());
+ 
 NEWGAME:
+
 	reset_game();
-	//start of the round deals 2 cards for plater 1 of cpu.
-	drawCard(1);
-	drawCard(0);
-	drawCard(1);
+	
+	drawCard(PLAYER);
+	drawCard(DEALER);
+	drawCard(PLAYER);
 
-	//check p1 if == 21
-	//check_score();
-
+	/** PLAY GAME **/
 	while (1)
 	{
 		if (check_score())
 		{
 			reset_display();
-			display_string(0, "BREAKING!");
 			display_update();
 
 			break;
 		}
 		labwork(); /* Do lab-specific things again and again */
 	}
-	//show_all_hands();
+
+	/** GAME END **/
 	reset_display();
 
+	// TODO CONVERT TO A SINGLE FUNCTION.
+	// display_winner(); TODO Make it better
 	display_winner();
 
 	while (1)
@@ -104,13 +109,15 @@ NEWGAME:
 		{
 			break;
 		}
-		display_string(2, "NEW GAME? (BTN2)");
-		display_string(3, "QUIT? (BTN1)");
+		
+		display_string(2, DISPLAY_NEW_GAME);
+		display_string(3, DISPLAY_QUIT);
 		display_update();
 	}
 
+	/** GAMEPLAY END **/
 	reset_display();
-	display_string(0, "Good bye!");
+	display_string(0, DISPLAY_GOOD_BYE);
 	display_update();
 
 	return 0;

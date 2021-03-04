@@ -177,3 +177,16 @@ const int SW1 = 0x0100;
 const int SW2 = 0x0200;
 const int SW3 = 0x0400;
 const int SW4 = 0x0800;
+/** USERS **/
+const int PLAYER = 1;
+const int DEALER = 0;
+const int BLACKJACK = 21;
+
+char* DISPLAY_PLAYER_NAME = "PLAYER 1: ";
+char* DISPLAY_DEALER_NAME = "DEALER: ";
+char* DISPLAY_DRAWN = "DRAWN CARDS: ";
+char* DISPLAY_PLAYER_WON = "PLAYER 1 WON";
+char* DISPLAY_DEALER_WON = "DEALER WON";
+char* DISPLAY_NEW_GAME = "NEW GAME? (BTN2)";
+char* DISPLAY_QUIT = "QUIT? (BTN1)";
+char* DISPLAY_GOOD_BYE = "GOOD BYE";
