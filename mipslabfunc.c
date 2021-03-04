@@ -392,6 +392,28 @@ void reset(void)
   return;
 }
 
+/** RESET DISPLAY **/
+void reset_display(void)
+{
+  display_string(0, "");
+  display_string(1, "");
+  display_string(2, "");
+  display_string(3, "");
+}
+
+/** RESET GAME **/
+void reset_game(void)
+{
+  player_score = 0;
+  player_state = 1;
+  player_draw = 0;
+
+  dealer_score = 0;
+  dealer_draw = 0;
+
+  return;
+}
+
 /** INITIALIZE **/
 void init_buttons(void)
 {
@@ -414,56 +436,6 @@ void setup_interrupt(void)
   IEC(0) = 0x100;
 
   enable_interrupt();
-  return;
-}
-
-/** DISPLAY WITH SCORE
- * Build upon display_score(int, char*) **/
-void display_score(int line, char *s, int score)
-{
-  int i;
-  char *k = itoaconv(score);
-  if (line < 0 || line >= 4)
-    return;
-  if (!s)
-    return;
-
-  for (i = 0; i < 16; i++)
-    if (*s)
-    {
-      textbuffer[line][i] = *s;
-      s++;
-    }
-    else
-    {
-      if (*k)
-      {
-        textbuffer[line][i] = *k;
-        k++;
-      }
-      else
-      {
-        textbuffer[line][i] = ' ';
-      }
-    }
-}
-
-/* DISPLAY WINNER */
-void display_winner(void)
-{
-  if (compare_score() == 2)
-  {
-    display_string(0, DISPLAY_DRAW_GAME);
-  }
-  else if (compare_score() == 1)
-  {
-    display_score(0, DISPLAY_PLAYER_WON, player_score);
-  }
-  else
-  {
-    display_score(0, DISPLAY_DEALER_WON, dealer_score);
-  }
-  display_update();
   return;
 }
 
@@ -504,20 +476,22 @@ int card_value(const int score)
 /** DRAW CARD **/
 void draw_card(int player)
 {
-  if (player == 1 && player_state == 1)
+  if (player == PLAYER && player_state == 1)
   {
     player_draw++;
     player_score += card_value(player_score);
   }
-  if (player == 0)
+  if (player == DEALER)
   {
     dealer_draw++;
     dealer_score += card_value(dealer_score);
   }
 }
 
-/** CHECK HAND SCORE **/
-int check_score(void)
+/** CHECK HAND SCORE
+ * If true = game over,
+ * If false = continue **/
+int is_game_over(void)
 {
   if (player_score == BLACKJACK || dealer_score == BLACKJACK || player_state == 0 || player_score > BLACKJACK)
   {
@@ -541,6 +515,38 @@ int compare_score(void)
   return 0;
 }
 
+
+/** DISPLAY WITH SCORE
+ * Build upon display_score(int, char*) **/
+void display_score(int line, char *s, int score)
+{
+  int i;
+  char *k = itoaconv(score);
+  if (line < 0 || line >= 4)
+    return;
+  if (!s)
+    return;
+
+  for (i = 0; i < 16; i++)
+    if (*s)
+    {
+      textbuffer[line][i] = *s;
+      s++;
+    }
+    else
+    {
+      if (*k)
+      {
+        textbuffer[line][i] = *k;
+        k++;
+      }
+      else
+      {
+        textbuffer[line][i] = ' ';
+      }
+    }
+}
+
 /** SHOW HAND **/
 void display_all_hands(void)
 {
@@ -552,24 +558,24 @@ void display_all_hands(void)
   return;
 }
 
-/** RESET DISPLAY **/
-void reset_display(void)
+/* DISPLAY WINNER */
+void display_winner(void)
 {
-  display_string(0, "");
-  display_string(1, "");
-  display_string(2, "");
-  display_string(3, "");
-}
-
-/** RESET GAME **/
-void reset_game(void)
-{
-  player_score = 0;
-  player_state = 1;
-  player_draw = 0;
-
-  dealer_score = 0;
-  dealer_draw = 0;
-
+  int result = compare_score();
+  if (result == DEALER)
+  {
+    display_score(0, DISPLAY_DEALER_WON, dealer_score);
+  }
+  else if (result == PLAYER)
+  {
+    display_score(0, DISPLAY_PLAYER_WON, player_score);
+  }
+  else
+  {
+    display_string(0, DISPLAY_DRAW_GAME);
+  }
+  display_update();
   return;
 }
+
+

@@ -80,7 +80,7 @@ NEWGAME:
 	/** PLAY GAME **/
 	while (1)
 	{
-		if (check_score())
+		if (is_game_over())
 		{
 			reset_display();
 			display_update();

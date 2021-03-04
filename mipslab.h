@@ -99,7 +99,7 @@ void display_score(int, char*, int);
 void display_winner(void);
 int is_pressed(int);
 void draw_card(int)
-int check_score(void);
+int is_game_over(void);
 int compare_score(void);
 void display_all_hands(void);
 void reset_display(void);
