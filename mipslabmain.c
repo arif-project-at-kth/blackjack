@@ -11,7 +11,9 @@
 #include <pic32mx.h> /* Declarations of system-specific addresses etc */
 #include "mipslab.h" /* Declatations for these labs */
 
-/** Starting up project (FROM LAB3) **/
+//	void *stdin, *stdout, *stderr;	// Used for -c99 in compiler
+
+/** STARTING UP PROJECT (FROM LAB3) **/
 void startup(void)
 {
 	/*
@@ -61,13 +63,57 @@ void startup(void)
 
 int main(void)
 {
+	/** INITIALIZE **/
 	startup();
 	display_init();
-	init(); 
+	init();
+
+	/** GAMEPLAY **/
+NEWGAME:
+
+	reset_game();
+
+	draw_card(PLAYER);
+	draw_card(DEALER);
+	draw_card(PLAYER);
+
+	/** PLAY GAME **/
+	while (1)
+	{
+		if (is_game_over())
+		{
+			reset_display();
+			display_update();
+
+			break;
+		}
+		labwork(); /* Do lab-specific things again and again */
+	}
+
+	/** GAME END **/
+	reset_display();
+	display_winner();
 
 	while (1)
 	{
-		labwork(); /* Do lab-specific things again and again */
+		if (is_pressed(BTN2))
+		{
+			goto NEWGAME;
+		}
+		if (is_pressed(BTN1))
+		{
+			break;
+		}
+
+		display_string(2, DISPLAY_NEW_GAME);
+		display_string(3, DISPLAY_QUIT);
+		display_update();
 	}
+
+	/** GAMEPLAY END **/
+	reset_display();
+	display_string(0, DISPLAY_GOOD_BYE);
+	display_update();
+
 	return 0;
 }

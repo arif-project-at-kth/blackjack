@@ -8,6 +8,8 @@
 #include <pic32mx.h> /* Declarations of system-specific addresses etc */
 #include "mipslab.h" /* Declatations for these labs */
 
+void *stdin, *stdout, *stderr;
+
 /* Declare a helper function which is local to this file */
 static void num32asc(char *s, int);
 
@@ -356,10 +358,34 @@ char *itoaconv(int num)
  * 2021-02-22
  **/
 
+/** VARIABLES **/
 int player_score = 0;
-int cpu_score = 0;
+int player_state = 1;
+int player_draw;
 
-/* Reseting TRISX - For Button - ARIF */
+int dealer_draw;
+int dealer_score = 0;
+
+int deck[4][14] = {
+    1,2,3,4,5,6,7,8,9,10,10,10,10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,
+    1,2,3,4,5,6,7,8,9,10,10,10,10,
+    
+};
+
+/**
+ * RANDOM GENERATED SEED 
+ * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
+ **/
+int generate_seed(void)
+{
+  return TMR2 * (TMR2 * ((2021421421421 % rand()) | srand(rand() % srand())));
+}
+
+/** RESETING TRISX
+ * For Button AND SLIDE SWITCH 
+ **/
 void reset(void)
 {
   TRISD = 0x0000;
@@ -367,7 +393,29 @@ void reset(void)
   return;
 }
 
-/* Inittialize - Buttons - ARIF */
+/** RESET DISPLAY **/
+void reset_display(void)
+{
+  display_string(0, "");
+  display_string(1, "");
+  display_string(2, "");
+  display_string(3, "");
+}
+
+/** RESET GAME **/
+void reset_game(void)
+{
+  player_score = 0;
+  player_state = 1;
+  player_draw = 0;
+
+  dealer_score = 0;
+  dealer_draw = 0;
+
+  return;
+}
+
+/** INITIALIZE **/
 void init_buttons(void)
 {
   reset();
@@ -377,14 +425,14 @@ void init_buttons(void)
   return;
 }
 
-/** Setup Interrupt **/
+/** SETUP INTERRUPT **/
 void setup_interrupt(void)
 {
   PR2 = (80000000 / 256) / 10;
   T2CON = 0x00;
-  T2CONSET = 0x70; // prescale
+  T2CONSET = 0x70;
   TMR2 = 0;
-  T2CONSET = 0x8000; // Start timer
+  T2CONSET = 0x8000;
   IPC(2) |= 0x10;
   IEC(0) = 0x100;
 
@@ -392,7 +440,85 @@ void setup_interrupt(void)
   return;
 }
 
-/** DISPLAY WITH SCORE **/
+/** Button pressed **/
+int is_pressed(const int button)
+{
+  return (button & (PORTD | PORTF)) ? 1 : 0;
+}
+
+/** GET CARD VALUE **/
+int card_value(const int score)
+{
+  int i, j, value;
+  while (1)
+  {
+    int number = rand() % 100;
+
+    j = (number & 0xf);
+    i = (number & 0x3);
+
+    value = deck[i][j];
+    if (value == 1 && score < 11)
+    {
+      return 11;
+    }
+    else if (value == 1 && score >= 11)
+    {
+      return 1;
+    }
+    if (value != 0)
+    {
+      break;
+    }
+  }
+  return value;
+}
+
+/** DRAW CARD **/
+void draw_card(int player)
+{
+  if (player == PLAYER && player_state == 1)
+  {
+    player_draw++;
+    player_score += card_value(player_score);
+  }
+  if (player == DEALER)
+  {
+    dealer_draw++;
+    dealer_score += card_value(dealer_score);
+  }
+}
+
+/** CHECK HAND SCORE
+ * If true = game over,
+ * If false = continue **/
+int is_game_over(void)
+{
+  if (player_score == BLACKJACK || dealer_score == BLACKJACK || player_state == 0 || player_score > BLACKJACK)
+  {
+    return 1;
+  }
+  return 0;
+}
+
+/** Compare Score**/
+int compare_score(void)
+{
+  if (player_score == BLACKJACK || dealer_score > BLACKJACK)
+  {
+    return 1;
+  }
+  if (player_score > dealer_score && player_score < BLACKJACK)
+  {
+    return 1;
+  }
+
+  return 0;
+}
+
+
+/** DISPLAY WITH SCORE
+ * Build upon display_score(int, char*) **/
 void display_score(int line, char *s, int score)
 {
   int i;
@@ -422,73 +548,35 @@ void display_score(int line, char *s, int score)
     }
 }
 
-/** Button pressed **/
-int is_pressed(const int button)
-{
-  return (button & (PORTD | PORTF)) ? 1 : 0;
-}
-
-/** CHECK TURN **/
-int turn = 1;
-int check_turn(void)
-{
-  return turn;
-}
-
-/** GET CARD VALUE **/
-// RANDOM ??
-// TODO GET RANDOM VALUE
-
-/** DRAW CARD **/
-// TODO CORRECT PLAYER GET CARD
-
-/** HIT **/
-// TODO FIX HOW TO HIT
-void hit(void)
-{
-  player_score++;
-  turn = 0;
-  return;
-}
-
-/** STAND **/
-// TODO FIX HOW TO STAND
-
-/** CHECK HAND SCORE **/
-int check_player_hand(void)
-{
-  if (player_score == 21)
-  {
-    return 1;
-  }
-  return 0;
-}
-
-int check_cpu_hand(void)
-{
-  if (cpu_score == 21)
-  {
-    return 1;
-  }
-  return 0;
-}
-
-/** WINNER MESSAGE **/
-// TODO FIX HOW TO SHOW WINNINGS MESSAGE
-
 /** SHOW HAND **/
-void show_all_hands(void)
+void display_all_hands(void)
 {
-  display_string(0, "Player 1: ");
-  display_string(1, itoaconv(player_score));
-  display_string(2, "Player 2: ");
-  display_string(3, itoaconv(cpu_score));
+  display_score(0, DISPLAY_PLAYER_NAME, player_score);
+  display_score(1, DISPLAY_DRAWN, player_draw);
+  display_score(2, DISPLAY_DEALER_NAME, dealer_score);
+  display_score(3, DISPLAY_DRAWN, dealer_draw);
   display_update();
   return;
 }
 
-/** NEXT TURN **/
-void next_turn(void) {
-  turn = turn == 1 ? 0 : 1;
+/* DISPLAY WINNER */
+void display_winner(void)
+{
+  int result = compare_score();
+  if (result == DEALER)
+  {
+    display_score(0, DISPLAY_DEALER_WON, dealer_score);
+  }
+  else if (result == PLAYER)
+  {
+    display_score(0, DISPLAY_PLAYER_WON, player_score);
+  }
+  else
+  {
+    display_string(0, DISPLAY_DRAW_GAME);
+  }
+  display_update();
   return;
 }
+
+

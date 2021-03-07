@@ -73,19 +73,34 @@ extern const int SW2;
 extern const int SW3;
 extern const int SW4;
 
-#endif
+extern const int PLAYER;
+extern const int DEALER;
+extern const int BLACKJACK;
+extern char* DISPLAY_PLAYER_NAME;
+extern char* DISPLAY_DEALER_NAME;
+extern char* DISPLAY_DRAWN;
+extern char* DISPLAY_PLAYER_WON;
+extern char* DISPLAY_DEALER_WON;
+extern char* DISPLAY_DRAW_GAME;
+extern char* DISPLAY_NEW_GAME;
+extern char* DISPLAY_QUIT;
+extern char* DISPLAY_GOOD_BYE;
 
+extern int player_state;
 extern int player_score;
-extern int cpu_score;
+extern int dealer_score;
+
+#endif
 
 /** Functions **/
 void init_buttons(void);
 void setup_interrupt(void);
 void display_score(int, char*, int);
+void display_winner(void);
 int is_pressed(int);
-int check_turn(void);
-void hit();
-int check_player_hand(void);
-int check_cpu_hand(void);
-void show_all_hands(void);
-void next_turn(void);
+void draw_card(int);
+int is_game_over(void);
+int compare_score(void);
+void display_all_hands(void);
+void reset_display(void);
+void reset_game(void);
