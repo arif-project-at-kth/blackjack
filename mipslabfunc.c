@@ -375,6 +375,7 @@ uint8_t deck[4][14] = {
 };
 //uint8_t decks[10][4][14] = {0};
 uint8_t decks[52] = {0};
+char* player_card[10];
 /**
  * RANDOM GENERATED SEED 
  * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
@@ -447,25 +448,45 @@ int is_pressed(const int button)
   return (button & (PORTD | PORTF)) ? 1 : 0;
 }
 
+
+/* GET SUITE */
+char* get_suite(int index)
+{
+    float value = (float) index;
+    value = value / 13;
+    
+    if(value <= 1)
+    {
+        return "H";
+    } else if(value <= 2) 
+    {
+        return "R";
+    } else if(value <= 3)
+    {
+        return "K";
+    } else if(value <= 4)
+    {
+        return "S";
+    }
+    return "Z";
+}
+
 /** GET CARD VALUE **/
 int card_value(const int score)
 {
   int i, j, value;
   while (1)
   {
-    //int number = rand() % 100;
-/*
-    j = (number & 0xf);
-    j = j < 13 ? j : 12;
-    j = j == 0 ? 1 : j;
-    i = (number & 0x3);
-    i = i == 0 ? 1 : i;
-    int index = i * j;
-    */
     int index = rand() % 52;
     value = decks[index];
     
     if(value != 0) {
+        char suite[100];
+        strcpy(suite, get_suite(index));
+        strcat(suite,itoaconv(value));
+        //display_score(2, suite, index);
+        //1display_string(2, (suite , itoaconv(index)));
+        display_string(2, suite);
         display_score(1, "dCard ", value);
         display_update();
         decks[index] = 0;
@@ -611,3 +632,4 @@ void generate_deck(void) // void ==> n value
     }
     return;
 }
+
