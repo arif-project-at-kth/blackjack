@@ -373,7 +373,7 @@ int deck[4][14] = {
     1,2,3,4,5,6,7,8,9,10,10,10,10,
     
 };
-
+int decks[10][4][14] = {0};
 /**
  * RANDOM GENERATED SEED 
  * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
@@ -554,7 +554,8 @@ void display_all_hands(void)
   display_score(0, DISPLAY_PLAYER_NAME, player_score);
   display_score(1, DISPLAY_DRAWN, player_draw);
   display_score(2, DISPLAY_DEALER_NAME, dealer_score);
-  display_score(3, DISPLAY_DRAWN, dealer_draw);
+  //display_score(3, DISPLAY_DRAWN, dealer_draw);
+  display_score(3, "DECK 1,2,3:", decks[1][2][3]);
   display_update();
   return;
 }
@@ -579,4 +580,26 @@ void display_winner(void)
   return;
 }
 
+/* GENERATE DECK */
 
+void generate_deck(void) // void ==> n value
+{
+    int n = 3;
+    int d = 0, suite = 0, card = 0;
+    for(d = 0; d < n; d++)
+    {
+        for(suite = 0; suite < 4; suite++)
+        {
+            for(card = 0; card < 14; card++)
+            {
+                int value = card + 1;
+                if(value > 10)
+                {
+                    value = 10;
+                }
+                decks[d][suite][card] = value;
+            }
+        }
+    }
+    return;
+}
