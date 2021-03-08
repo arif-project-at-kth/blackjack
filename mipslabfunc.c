@@ -472,7 +472,7 @@ char* get_suite(int index)
 }
 
 /** GET CARD VALUE **/
-int card_value(const int score)
+/*int card_value(const int score)
 {
   int i, j, value;
   while (1)
@@ -502,6 +502,60 @@ int card_value(const int score)
     }
   }
   return value;
+}*/
+/** Return deck[index] value **/
+char* get_card_string(const int card_value)
+{
+    char value[100];
+    int number = card_value;
+    number = number > 10 ? 10 : number;
+    if(card_value == 11) 
+    {
+        strcpy(value, "J");
+    } else if (card_value == 12)
+    {
+        strcpy(value, "Q");
+    } else if (card_value == 13)
+    {
+        strcpy(value, "K");
+    }
+    strcat(value,itoaconv(number));
+    return value;
+}
+
+char player_hand[52];
+int card_value(const int score)
+{
+  reset_display();
+    int i, j, value;
+    while (1)
+    {
+        int index = rand() % 52;
+        value = decks[index];
+
+        if (value != 0)
+        {
+            char  card_text[100];
+            strcpy(card_text, get_suite(index));
+            strcat(card_text, get_card_string(value));
+           // strcat(player_hand,",");
+            display_string(2, card_text);
+            decks[index] = 0; 
+            value = value > 10 ? 10 : value;
+            display_score(1, "dCard ", value);
+            display_update();
+            if (value == 1 && score < 11)
+            {
+                return 11;
+            } else if (value == 1 && score >= 11)
+            {
+                return 1;
+            }
+            break;         
+        }
+        
+    }
+    return value;
 }
 
 /** DRAW CARD **/
@@ -581,6 +635,7 @@ void display_score(int line, char *s, int score)
 /** SHOW HAND **/
 void display_all_hands(void)
 {
+  
     display_score(0, "", player_draw);
   //display_score(0, DISPLAY_PLAYER_NAME, player_score);
   //display_score(1, DISPLAY_DRAWN, player_draw);
@@ -624,10 +679,10 @@ void generate_deck(void) // void ==> n value
         if(suite == 4) {
             suite = 0;
             value++;
-            if(value > 10)
+           /* if(value > 10)
             {
                 value = 10;
-            }
+            }*/
         }
     }
     return;
