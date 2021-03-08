@@ -366,14 +366,15 @@ int player_draw;
 int dealer_draw;
 int dealer_score = 0;
 
-int deck[4][14] = {
+uint8_t deck[4][14] = {
     1,2,3,4,5,6,7,8,9,10,10,10,10,
     1,2,3,4,5,6,7,8,9,10,10,10,10,
     1,2,3,4,5,6,7,8,9,10,10,10,10,
     1,2,3,4,5,6,7,8,9,10,10,10,10,
     
 };
-int decks[10][4][14] = {0};
+//uint8_t decks[10][4][14] = {0};
+uint8_t decks[52] = {0};
 /**
  * RANDOM GENERATED SEED 
  * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
@@ -452,12 +453,22 @@ int card_value(const int score)
   int i, j, value;
   while (1)
   {
-    int number = rand() % 100;
-
+    //int number = rand() % 100;
+/*
     j = (number & 0xf);
+    j = j < 13 ? j : 12;
+    j = j == 0 ? 1 : j;
     i = (number & 0x3);
-
-    value = deck[i][j];
+    i = i == 0 ? 1 : i;
+    int index = i * j;
+    */
+    int index = rand() % 52;
+    value = decks[index];
+    
+    if(value != 0) {
+        display_score(1, "dCard ", value);
+        display_update();
+        decks[index] = 0;
     if (value == 1 && score < 11)
     {
       return 11;
@@ -466,8 +477,6 @@ int card_value(const int score)
     {
       return 1;
     }
-    if (value != 0)
-    {
       break;
     }
   }
@@ -551,11 +560,11 @@ void display_score(int line, char *s, int score)
 /** SHOW HAND **/
 void display_all_hands(void)
 {
-  display_score(0, DISPLAY_PLAYER_NAME, player_score);
-  display_score(1, DISPLAY_DRAWN, player_draw);
-  display_score(2, DISPLAY_DEALER_NAME, dealer_score);
+    display_score(0, "", player_draw);
+  //display_score(0, DISPLAY_PLAYER_NAME, player_score);
+  //display_score(1, DISPLAY_DRAWN, player_draw);
+  //display_score(2, DISPLAY_DEALER_NAME, dealer_score);
   //display_score(3, DISPLAY_DRAWN, dealer_draw);
-  display_score(3, "DECK 1,2,3:", decks[1][2][3]);
   display_update();
   return;
 }
@@ -584,20 +593,19 @@ void display_winner(void)
 
 void generate_deck(void) // void ==> n value
 {
-    int n = 3;
-    int d = 0, suite = 0, card = 0;
-    for(d = 0; d < n; d++)
+    int card;
+    int suite = 0;
+    int value = 1;
+    for(card = 0; card < 52; card++)
     {
-        for(suite = 0; suite < 4; suite++)
-        {
-            for(card = 0; card < 14; card++)
+        decks[card] = value;
+        suite++;
+        if(suite == 4) {
+            suite = 0;
+            value++;
+            if(value > 10)
             {
-                int value = card + 1;
-                if(value > 10)
-                {
-                    value = 10;
-                }
-                decks[d][suite][card] = value;
+                value = 10;
             }
         }
     }
