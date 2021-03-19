@@ -374,7 +374,7 @@ uint8_t deck[4][14] = {
     
 };
 //uint8_t decks[10][4][14] = {0};
-uint8_t decks[52] = {0};
+uint8_t decks[520] = {0};
 char* player_card[10];
 /**
  * RANDOM GENERATED SEED 
@@ -632,6 +632,7 @@ void display_all_hands(void)
 {
   
     display_score(0, "", player_draw);
+    display_string(1, player_hand); // Visar spelaren dragna kort
   //display_score(0, DISPLAY_PLAYER_NAME, player_score);
   //display_score(1, DISPLAY_DRAWN, player_draw);
   //display_score(2, DISPLAY_DEALER_NAME, dealer_score);
@@ -667,6 +668,8 @@ void generate_deck(void) // void ==> n value
     int card;
     int suite = 0;
     int value = 1;
+    int size = 10;
+    //while(size > 0) //size = size * 52 kort
     for(card = 0; card < 52; card++)
     {
         decks[card] = value;
@@ -674,12 +677,9 @@ void generate_deck(void) // void ==> n value
         if(suite == 4) {
             suite = 0;
             value++;
-           /* if(value > 10)
-            {
-                value = 10;
-            }*/
         }
     }
+    //} // uncomment om allt funkar som det ska, detta ska skapa en kortlek som är stor.
     return;
 }
 
