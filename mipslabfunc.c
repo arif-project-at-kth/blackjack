@@ -468,7 +468,7 @@ char* get_suite(int index)
     {
         return "S";
     }
-    return "Z";
+    return "";
 }
 
 /** GET CARD VALUE **/
