@@ -450,25 +450,25 @@ int is_pressed(const int button)
 
 
 /* GET SUITE */
-char* get_suite(int index)
+char get_suite(int index)
 {
     float value = (float) index;
     value = value / 13;
     
     if(value <= 1)
     {
-        return "H";
+        return 'H';
     } else if(value <= 2) 
     {
-        return "R";
+        return 'R';
     } else if(value <= 3)
     {
-        return "K";
+        return 'K';
     } else if(value <= 4)
     {
-        return "S";
+        return 'S';
     }
-    return "";
+    return '\0';
 }
 
 /** GET CARD VALUE **/
@@ -504,26 +504,22 @@ char* get_suite(int index)
   return value;
 }*/
 /** Return deck[index] value **/
-char* get_card_string(const int card_value)
+char get_card_string(const int card_value)
 {
-    char value[100];
-    int number = card_value;
-    number = number > 10 ? 10 : number;
-    if(card_value == 11) 
+    if(card_value == 11)
     {
-        strcpy(value, "J");
-    } else if (card_value == 12)
+      return 'J';
+    } else if (card_value == 12) 
     {
-        strcpy(value, "Q");
-    } else if (card_value == 13)
+      return 'Q';
+    } else if(card_value == 13)
     {
-        strcpy(value, "K");
+      return 'K';
     }
-    strcat(value,itoaconv(number));
-    return value;
+    return '\0';
 }
 
-char player_hand[52];
+char player_hand[260]; // Hold 52 card, 1 card = 5 characters.
 int card_value(const int score)
 {
   reset_display();
@@ -535,15 +531,14 @@ int card_value(const int score)
 
         if (value != 0)
         {
-            char  card_text[100];
-            strcpy(card_text, get_suite(index));
-            strcat(card_text, get_card_string(value));
-           // strcat(player_hand,",");
-            display_string(2, card_text);
-            decks[index] = 0; 
+            char card_text[4];
+            card_text[0] = get_suite(index);
+            card_text[1] = get_card_string(value);
             value = value > 10 ? 10 : value;
-            display_score(1, "dCard ", value);
-            display_update();
+            strcat(card_text,itoaconv(value));
+            strcat(player_hand,card_text);
+            strcat(player_hand, ",");
+            decks[index] = 0; 
             if (value == 1 && score < 11)
             {
                 return 11;
