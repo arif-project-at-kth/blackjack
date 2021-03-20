@@ -601,8 +601,9 @@ void display_score(int line, char *s, int score)
 void display_all_hands(void)
 {
   // Show recent 2 cards
-  char recent_drawn_cards[10];
+  char recent_drawn_cards[15];
   strcat(recent_drawn_cards, player_hand[player_draw - 1]);
+  strcat(recent_drawn_cards,",");
   strcat(recent_drawn_cards, player_hand[player_draw]);
 
   display_score(0, "", player_draw);
