@@ -362,6 +362,7 @@ char *itoaconv(int num)
 int player_score = 0;
 int player_state = 1;
 int player_draw;
+char player_hand[260][5]; // Hold 52 card, 1 card = 5 characters.
 
 int dealer_draw;
 int dealer_score = 0;
@@ -482,7 +483,6 @@ char get_card_string(const int card_value)
   return '\0';
 }
 
-char player_hand[260]; // Hold 52 card, 1 card = 5 characters.
 int card_value(const int score)
 {
   reset_display();
@@ -519,8 +519,8 @@ void store_card_in_hand(int index, int value)
   card_text[1] = get_card_string(value);
   value = value > 10 ? 10 : value;
   strcat(card_text, itoaconv(value));
-  strcat(player_hand, card_text);
-  strcat(player_hand, ",");
+  strcat(player_hand[player_draw], card_text);
+  strcat(player_hand[player_draw], ",");
   decks[index] = 0;
 }
 
@@ -600,9 +600,13 @@ void display_score(int line, char *s, int score)
 /** SHOW HAND **/
 void display_all_hands(void)
 {
+  // Show recent 2 cards
+  char recent_drawn_cards[10];
+  strcat(recent_drawn_cards,player_hand[player_draw - 1]);
+  strcat(recent_drawn_cards,player_hand[player_draw]);
 
   display_score(0, "", player_draw);
-  display_string(1, player_hand); // Visar spelaren dragna kort
+  display_string(1, recent_drawn_cards); // Visar spelaren dragna kort
   //display_score(0, DISPLAY_PLAYER_NAME, player_score);
   //display_score(1, DISPLAY_DRAWN, player_draw);
   //display_score(2, DISPLAY_DEALER_NAME, dealer_score);
