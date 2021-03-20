@@ -463,39 +463,6 @@ char get_suite(int index)
     return '\0';
 }
 
-/** GET CARD VALUE **/
-/*int card_value(const int score)
-{
-  int i, j, value;
-  while (1)
-  {
-    int index = rand() % 52;
-    value = decks[index];
-    
-    if(value != 0) {
-        char suite[100];
-        strcpy(suite, get_suite(index));
-        strcat(suite,itoaconv(value));
-        //display_score(2, suite, index);
-        //1display_string(2, (suite , itoaconv(index)));
-        display_string(2, suite);
-        display_score(1, "dCard ", value);
-        display_update();
-        decks[index] = 0;
-    if (value == 1 && score < 11)
-    {
-      return 11;
-    }
-    else if (value == 1 && score >= 11)
-    {
-      return 1;
-    }
-      break;
-    }
-  }
-  return value;
-}*/
-/** Return deck[index] value **/
 char get_card_string(const int card_value)
 {
     if(card_value == 11)
