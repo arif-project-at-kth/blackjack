@@ -496,8 +496,9 @@ int card_value(const int score)
     {
       if (player_state == 1)
       {
-        store_card_in_hand(index,value);
+        store_card_in_hand(index, value);
       }
+      decks[index] = 0;
       if (value == 1 && score < 11)
       {
         return 11;
@@ -521,7 +522,6 @@ void store_card_in_hand(int index, int value)
   strcat(card_text, itoaconv(value));
   strcat(player_hand[player_draw], card_text);
   strcat(player_hand[player_draw], ",");
-  decks[index] = 0;
 }
 
 /** DRAW CARD **/
@@ -602,8 +602,8 @@ void display_all_hands(void)
 {
   // Show recent 2 cards
   char recent_drawn_cards[10];
-  strcat(recent_drawn_cards,player_hand[player_draw - 1]);
-  strcat(recent_drawn_cards,player_hand[player_draw]);
+  strcat(recent_drawn_cards, player_hand[player_draw - 1]);
+  strcat(recent_drawn_cards, player_hand[player_draw]);
 
   display_score(0, "", player_draw);
   display_string(1, recent_drawn_cards); // Visar spelaren dragna kort
