@@ -107,3 +107,4 @@ void display_all_hands(void);
 void reset_display(void);
 void reset_game(void);
 int bet_more(void);
+void generate_deck(void);

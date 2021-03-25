@@ -68,6 +68,7 @@ int main(void)
 	display_init();
 	init();
 
+        generate_deck();
 	/** GAMEPLAY **/
 NEWGAME:
 

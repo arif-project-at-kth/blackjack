@@ -367,19 +367,16 @@ int player_draw;
 int dealer_draw;
 int dealer_score = 0;
 
+<
 int bet= 0;
 
-int deck[4][14] = {
-    1,2,3,4,5,6,7,8,9,10,10,10,10,
-    1,2,3,4,5,6,7,8,9,10,10,10,10,
-    1,2,3,4,5,6,7,8,9,10,10,10,10,
-    1,2,3,4,5,6,7,8,9,10,10,10,10,
-    
-};
 
 
 
 
+//uint8_t decks[10][4][14] = {0};
+uint8_t decks[520] = {0};
+char* player_card[10];
 /**
  * RANDOM GENERATED SEED 
  * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
@@ -481,18 +478,50 @@ int bet_more(){
 
 
 
+
+
+/* GET SUITE */
+char get_suite(int index)
+{
+    float value = (float) index;
+    value = value / 13;
+    
+    if(value <= 1)
+    {
+        return 'H';
+    } else if(value <= 2) 
+    {
+        return 'R';
+    } else if(value <= 3)
+    {
+        return 'K';
+    } else if(value <= 4)
+    {
+        return 'S';
+    }
+    return '\0';
+}
+
+
 /** GET CARD VALUE **/
-int card_value(const int score)
+/*int card_value(const int score)
 {
   int i, j, value;
   while (1)
   {
-    int number = rand() % 100;
-
-    j = (number & 0xf);
-    i = (number & 0x3);
-
-    value = deck[i][j];
+    int index = rand() % 52;
+    value = decks[index];
+    
+    if(value != 0) {
+        char suite[100];
+        strcpy(suite, get_suite(index));
+        strcat(suite,itoaconv(value));
+        //display_score(2, suite, index);
+        //1display_string(2, (suite , itoaconv(index)));
+        display_string(2, suite);
+        display_score(1, "dCard ", value);
+        display_update();
+        decks[index] = 0;
     if (value == 1 && score < 11)
     {
       return 11;
@@ -501,12 +530,59 @@ int card_value(const int score)
     {
       return 1;
     }
-    if (value != 0)
-    {
       break;
     }
   }
   return value;
+}*/
+/** Return deck[index] value **/
+char get_card_string(const int card_value)
+{
+    if(card_value == 11)
+    {
+      return 'J';
+    } else if (card_value == 12) 
+    {
+      return 'Q';
+    } else if(card_value == 13)
+    {
+      return 'K';
+    }
+    return '\0';
+}
+
+char player_hand[260]; // Hold 52 card, 1 card = 5 characters.
+int card_value(const int score)
+{
+  reset_display();
+    int i, j, value;
+    while (1)
+    {
+        int index = rand() % 52;
+        value = decks[index];
+
+        if (value != 0)
+        {
+            char card_text[4];
+            card_text[0] = get_suite(index);
+            card_text[1] = get_card_string(value);
+            value = value > 10 ? 10 : value;
+            strcat(card_text,itoaconv(value));
+            strcat(player_hand,card_text);
+            strcat(player_hand, ",");
+            decks[index] = 0; 
+            if (value == 1 && score < 11)
+            {
+                return 11;
+            } else if (value == 1 && score >= 11)
+            {
+                return 1;
+            }
+            break;         
+        }
+        
+    }
+    return value;
 }
 
 /** DRAW CARD **/
@@ -586,10 +662,13 @@ void display_score(int line, char *s, int score)
 /** SHOW HAND **/
 void display_all_hands(void)
 {
-  display_score(0, DISPLAY_PLAYER_NAME, player_score);
-  display_score(1, DISPLAY_DRAWN, player_draw);
-  display_score(2, DISPLAY_DEALER_NAME, dealer_score);
-  display_score(3, DISPLAY_DRAWN, dealer_draw);
+  
+    display_score(0, "", player_draw);
+    display_string(1, player_hand); // Visar spelaren dragna kort
+  //display_score(0, DISPLAY_PLAYER_NAME, player_score);
+  //display_score(1, DISPLAY_DRAWN, player_draw);
+  //display_score(2, DISPLAY_DEALER_NAME, dealer_score);
+  //display_score(3, DISPLAY_DRAWN, dealer_draw);
   display_update();
   return;
 }
@@ -616,4 +695,25 @@ void display_winner(void)
   return;
 }
 
+/* GENERATE DECK */
+
+void generate_deck(void) // void ==> n value
+{
+    int card;
+    int suite = 0;
+    int value = 1;
+    int size = 10;
+    //while(size > 0) //size = size * 52 kort
+    for(card = 0; card < 52; card++)
+    {
+        decks[card] = value;
+        suite++;
+        if(suite == 4) {
+            suite = 0;
+            value++;
+        }
+    }
+    //} // uncomment om allt funkar som det ska, detta ska skapa en kortlek som är stor.
+    return;
+}
 
