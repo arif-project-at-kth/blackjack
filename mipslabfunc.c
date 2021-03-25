@@ -407,6 +407,7 @@ void reset_game(void)
 
   dealer_score = 0;
   //dealer_draw = 0;
+  bet = 0;
   return;
 }
 
