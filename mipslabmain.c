@@ -68,16 +68,13 @@ int main(void)
 	display_init();
 	init();
 
-        generate_deck();
 	/** GAMEPLAY **/
 NEWGAME:
 
 	reset_game();
 
 	draw_card(PLAYER);
-        player_state = 0; // Dealer draws
 	draw_card(DEALER);
-        player_state = 1; // Player draws
 	draw_card(PLAYER);
 
 	/** PLAY GAME **/
@@ -90,7 +87,6 @@ NEWGAME:
 
 			break;
 		}
-                
 		labwork(); /* Do lab-specific things again and again */
 	}
 

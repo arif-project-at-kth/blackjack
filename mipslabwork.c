@@ -35,9 +35,9 @@ void user_isr(void)
         {
             while (player_score > dealer_score && dealer_score < BLACKJACK || dealer_score < 17)
             {
-                player_state = 0;
                 draw_card(DEALER);
                 display_all_hands();
+                player_state = 0;
             }
 
             standing = 0;
