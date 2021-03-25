@@ -363,20 +363,12 @@ int player_money = 100;
 int player_score = 0;
 int player_state = 1;
 int player_draw;
-
+char player_hand[260][9]; // Hold 52 card, 1 card = 5 characters.
 int dealer_draw;
 int dealer_score = 0;
-
-
-int bet= 0;
-
-
-
-
-
-//uint8_t decks[10][4][14] = {0};
+int bet = 0;
 uint8_t decks[520] = {0};
-char* player_card[10];
+char *player_card[10];
 /**
  * RANDOM GENERATED SEED 
  * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
@@ -411,14 +403,10 @@ void reset_game(void)
 
   player_score = 0;
   player_state = 1;
-  player_draw = 0;
+  // player_draw = 0;
 
   dealer_score = 0;
-  dealer_draw = 0;
-
-
-
-
+  //dealer_draw = 0;
   return;
 }
 
@@ -453,78 +441,111 @@ int is_pressed(const int button)
   return (button & (PORTD | PORTF)) ? 1 : 0;
 }
 
-
 //bet
 
-int bet_more(){
- 
- int bet_time = 1;
+int bet_more()
+{
 
- while (is_pressed(SW3)&& bet <player_money) {
-   if (bet_time==1){
-     bet+=5;
-     bet_time = 0;
-   }
- }
-  
-    while (is_pressed(SW4) && bet > 0){
-      if (bet_time == 1){
-        bet-=5;
-        bet_time =0;
-      }
+  int bet_time = 1;
+
+  while (is_pressed(SW3) && bet < player_money)
+  {
+    if (bet_time == 1)
+    {
+      bet += 5;
+      bet_time = 0;
     }
+  }
+
+  while (is_pressed(SW4) && bet > 0)
+  {
+    if (bet_time == 1)
+    {
+      bet -= 5;
+      bet_time = 0;
+    }
+  }
 
   return bet;
 }
 
-
-
-
-
 /* GET SUITE */
 char get_suite(int index)
 {
-    float value = (float) index;
-    value = value / 13;
-    
-    if(value <= 1)
-    {
-        return 'H';
-    } else if(value <= 2) 
-    {
-        return 'R';
-    } else if(value <= 3)
-    {
-        return 'K';
-    } else if(value <= 4)
-    {
-        return 'S';
-    }
-    return '\0';
+  float value = (float)index;
+  value = value / 13;
+
+  if (value <= 1)
+  {
+    return 'H';
+  }
+  else if (value <= 2)
+  {
+    return 'R';
+  }
+  else if (value <= 3)
+  {
+    return 'K';
+  }
+  else if (value <= 4)
+  {
+    return 'S';
+  }
+  return '\0';
+}
+char get_card_string(const int card_value)
+{
+  if (card_value == 11)
+  {
+    return 'J';
+  }
+  else if (card_value == 12)
+  {
+    return 'Q';
+  }
+  else if (card_value == 13)
+  {
+    return 'K';
+  }
+  return '\0';
 }
 
+void store_card_in_hand(int index, int value)
+{
+  char card_text[9];
+  card_text[0] = get_suite(index);
+  card_text[1] = get_card_string(value);
+  value = value > 10 ? 10 : value;
+  strcat(card_text, itoaconv(value));
+  strcat(player_hand[player_draw], card_text);
+  //strcat(player_hand[player_draw], ",");
+}
 /** GET CARD VALUE **/
 int card_value(const int score)
 {
+  reset_display();
   int i, j, value;
   while (1)
   {
-    int number = rand() % 100;
+    int index = rand() % 52;
+    value = decks[index];
 
-    j = (number & 0xf);
-    i = (number & 0x3);
-
-    value = deck[i][j];
-    if (value == 1 && score < 11)
-    {
-      return 11;
-    }
-    else if (value == 1 && score >= 11)
-    {
-      return 1;
-    }
     if (value != 0)
     {
+      if (player_state == 1)
+      {
+        store_card_in_hand(index, value);
+      }
+      decks[index] = 0;
+      value = value > 10 ? 10 : value;
+      if (value == 1 && score < 11)
+      {
+        return 11;
+      }
+      else if (value == 1 && score >= 11)
+      {
+        return 1;
+      }
       break;
     }
   }
@@ -573,7 +594,6 @@ int compare_score(void)
   return 0;
 }
 
-
 /** DISPLAY WITH SCORE
  * Build upon display_score(int, char*) **/
 void display_score(int line, char *s, int score)
@@ -608,10 +628,21 @@ void display_score(int line, char *s, int score)
 /** SHOW HAND **/
 void display_all_hands(void)
 {
+  reset_display();
+  // Show recent 2 cards
+  char recent_drawn_cards[9];
+  strcpy(recent_drawn_cards, player_hand[player_draw - 1]);
+  char *notZero = player_hand[player_draw];
+  if (notZero != "0" || *notZero != '\0')
+  {
+    strcat(recent_drawn_cards, ",");
+    strcat(recent_drawn_cards, player_hand[player_draw]);
+  }
+
   display_score(0, DISPLAY_PLAYER_NAME, player_score);
-  display_score(1, DISPLAY_DRAWN, player_draw);
+  display_string(1, recent_drawn_cards); // Visar spelaren dragna kort
   display_score(2, DISPLAY_DEALER_NAME, dealer_score);
-  display_score(3, DISPLAY_DRAWN, dealer_draw);
+  //display_score(3, DISPLAY_DRAWN, dealer_draw);
   display_update();
   return;
 }
@@ -628,7 +659,7 @@ void display_winner(void)
   else if (result == PLAYER)
   {
     display_score(0, DISPLAY_PLAYER_WON, player_score);
-    player_money = player_money +(bet*2);
+    player_money = player_money + (bet * 2);
   }
   else
   {
@@ -637,5 +668,21 @@ void display_winner(void)
   display_update();
   return;
 }
-
-
+void generate_deck(void) // void ==> n value
+{
+  int card;
+  int suite = 0;
+  int value = 1;
+  int size = 52;                      // 520 cards = 10 decks, 52 for 1 deck
+  for (card = 0; card < size; card++) //
+  {
+    decks[card] = value;
+    suite++;
+    if (suite == 4) // 4 for 1 deck, 40 deck for 10 deck
+    {
+      suite = 0;
+      value++;
+    }
+  }
+  return;
+}

@@ -67,30 +67,34 @@ int main(void)
 	startup();
 	display_init();
 	init();
-
+	generate_deck();
 	/** GAMEPLAY **/
 NEWGAME:
 
 	reset_game();
-
 	// bet
-	while (1){
+	reset_display();
+	while (1)
+	{
 		reset_display();
-	display_string(0,"Time for Bets");
-	display_score(1,"P Money : ",player_money);
-	bet_more();
-	display_score(3,"bet :", bet);
-	display_update();
+		display_string(0, "Time for Bets");
+		display_score(1, "P Money : ", player_money);
+		bet_more();
+		display_score(3, "bet :", bet);
+		display_update();
 
-	if (is_pressed(SW1)){
-		break;
-	}
-
+		if (is_pressed(SW1))
+		{
+			break;
+		}
 	}
 
 	draw_card(PLAYER);
+	player_state = 0; // DEALER DRAWS
 	draw_card(DEALER);
+	player_state = 1; // PLAYER DRAWS
 	draw_card(PLAYER);
+
 
 	/** PLAY GAME **/
 	while (1)
