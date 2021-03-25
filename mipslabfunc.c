@@ -673,12 +673,12 @@ void generate_deck(void) // void ==> n value
   int card;
   int suite = 0;
   int value = 1;
-  int size = 52;                      // 520 cards = 10 decks, 52 for 1 deck
+  int size = 520;                      // 520 cards = 10 decks, 52 for 1 deck
   for (card = 0; card < size; card++) //
   {
     decks[card] = value;
     suite++;
-    if (suite == 4) // 4 for 1 deck, 40 deck for 10 deck
+    if (suite == 40) // 4 for 1 deck, 40 deck for 10 deck
     {
       suite = 0;
       value++;
