@@ -91,6 +91,7 @@ extern int bet;
 extern int player_state;
 extern int player_score;
 extern int dealer_score;
+extern int cards_left;
 
 #endif
 

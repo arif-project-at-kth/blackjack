@@ -369,6 +369,8 @@ int dealer_score = 0;
 int bet = 0;
 uint8_t decks[520] = {0};
 char *player_card[10];
+int cards_left = 0;
+int number_of_decks = 1;
 /**
  * RANDOM GENERATED SEED 
  * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
@@ -556,6 +558,7 @@ int card_value(const int score)
 /** DRAW CARD **/
 void draw_card(int player)
 {
+  cards_left--;
   if (player == PLAYER && player_state == 1)
   {
     player_draw++;
@@ -674,12 +677,14 @@ void generate_deck(void) // void ==> n value
   int card;
   int suite = 0;
   int value = 1;
-  int size = 520;                      // 520 cards = 10 decks, 52 for 1 deck
+  int size = 52 * number_of_decks;                      // 520 cards = 10 decks, 52 for 1 deck
+  int suite_size = 4 * number_of_decks;
+  cards_left = size;
   for (card = 0; card < size; card++) //
   {
     decks[card] = value;
-    suite++;
-    if (suite == 40) // 4 for 1 deck, 40 deck for 10 deck
+    suite++; // 4 for 1 deck, 40 deck for 10 deck
+    if(suite == suite_size)
     {
       suite = 0;
       value++;

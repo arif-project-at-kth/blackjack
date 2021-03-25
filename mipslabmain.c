@@ -72,9 +72,11 @@ int main(void)
 NEWGAME:
 
 	reset_game();
+	int not_game_over = player_money > 0 ? 1 : 0;
+	not_game_over = cards_left > 0 ? 1 : 0;
 	// bet
 	reset_display();
-	while (1)
+	while (1 && player_money > 0)
 	{
 		reset_display();
 		display_string(0, "Time for Bets");
@@ -83,30 +85,35 @@ NEWGAME:
 		display_score(3, "bet :", bet);
 		display_update();
 
-		if (is_pressed(SW1))
+		if (is_pressed(SW1) && bet > 0)
 		{
 			break;
 		}
 	}
 
-	draw_card(PLAYER);
-	player_state = 0; // DEALER DRAWS
-	draw_card(DEALER);
-	player_state = 1; // PLAYER DRAWS
-	draw_card(PLAYER);
-
+	if (not_game_over)
+	{
+		draw_card(PLAYER);
+		player_state = 0; // DEALER DRAWS
+		draw_card(DEALER);
+		player_state = 1; // PLAYER DRAWS
+		draw_card(PLAYER);
+	}
 
 	/** PLAY GAME **/
-	while (1)
+	if (not_game_over)
 	{
-		if (is_game_over())
+		while (1)
 		{
-			reset_display();
-			display_update();
+			if (is_game_over())
+			{
+				reset_display();
+				display_update();
 
-			break;
+				break;
+			}
+			labwork(); /* Do lab-specific things again and again */
 		}
-		labwork(); /* Do lab-specific things again and again */
 	}
 
 	/** GAME END **/
@@ -115,11 +122,11 @@ NEWGAME:
 
 	while (1)
 	{
-		if (is_pressed(BTN2))
+		if (is_pressed(BTN2) && player_money > 0 && cards_left > 0)
 		{
 			goto NEWGAME;
 		}
-		if (is_pressed(BTN1))
+		if (is_pressed(BTN1)) // || player_money <= 0 || cards_left <= 0)
 		{
 			break;
 		}
