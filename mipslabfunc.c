@@ -359,6 +359,7 @@ char *itoaconv(int num)
  **/
 
 /** VARIABLES **/
+int player_money = 100;
 int player_score = 0;
 int player_state = 1;
 int player_draw;
@@ -366,14 +367,16 @@ int player_draw;
 int dealer_draw;
 int dealer_score = 0;
 
-int deck[4][14] = {
-    1,2,3,4,5,6,7,8,9,10,10,10,10,
-    1,2,3,4,5,6,7,8,9,10,10,10,10,
-    1,2,3,4,5,6,7,8,9,10,10,10,10,
-    1,2,3,4,5,6,7,8,9,10,10,10,10,
-    
-};
 
+int bet= 0;
+
+
+
+
+
+//uint8_t decks[10][4][14] = {0};
+uint8_t decks[520] = {0};
+char* player_card[10];
 /**
  * RANDOM GENERATED SEED 
  * Generated from ChipKIT's TMR2 multiplied with the hardware rand value.
@@ -405,12 +408,16 @@ void reset_display(void)
 /** RESET GAME **/
 void reset_game(void)
 {
+
   player_score = 0;
   player_state = 1;
   player_draw = 0;
 
   dealer_score = 0;
   dealer_draw = 0;
+
+
+
 
   return;
 }
@@ -444,6 +451,56 @@ void setup_interrupt(void)
 int is_pressed(const int button)
 {
   return (button & (PORTD | PORTF)) ? 1 : 0;
+}
+
+
+//bet
+
+int bet_more(){
+ 
+ int bet_time = 1;
+
+ while (is_pressed(SW3)&& bet <player_money) {
+   if (bet_time==1){
+     bet+=5;
+     bet_time = 0;
+   }
+ }
+  
+    while (is_pressed(SW4) && bet > 0){
+      if (bet_time == 1){
+        bet-=5;
+        bet_time =0;
+      }
+    }
+
+  return bet;
+}
+
+
+
+
+
+/* GET SUITE */
+char get_suite(int index)
+{
+    float value = (float) index;
+    value = value / 13;
+    
+    if(value <= 1)
+    {
+        return 'H';
+    } else if(value <= 2) 
+    {
+        return 'R';
+    } else if(value <= 3)
+    {
+        return 'K';
+    } else if(value <= 4)
+    {
+        return 'S';
+    }
+    return '\0';
 }
 
 /** GET CARD VALUE **/
@@ -566,10 +623,12 @@ void display_winner(void)
   if (result == DEALER)
   {
     display_score(0, DISPLAY_DEALER_WON, dealer_score);
+    player_money = player_money - bet;
   }
   else if (result == PLAYER)
   {
     display_score(0, DISPLAY_PLAYER_WON, player_score);
+    player_money = player_money +(bet*2);
   }
   else
   {

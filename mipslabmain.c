@@ -73,6 +73,21 @@ NEWGAME:
 
 	reset_game();
 
+	// bet
+	while (1){
+		reset_display();
+	display_string(0,"Time for Bets");
+	display_score(1,"P Money : ",player_money);
+	bet_more();
+	display_score(3,"bet :", bet);
+	display_update();
+
+	if (is_pressed(SW1)){
+		break;
+	}
+
+	}
+
 	draw_card(PLAYER);
 	draw_card(DEALER);
 	draw_card(PLAYER);

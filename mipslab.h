@@ -85,6 +85,8 @@ extern char* DISPLAY_DRAW_GAME;
 extern char* DISPLAY_NEW_GAME;
 extern char* DISPLAY_QUIT;
 extern char* DISPLAY_GOOD_BYE;
+extern int player_money;
+extern int bet;
 
 extern int player_state;
 extern int player_score;
@@ -104,3 +106,5 @@ int compare_score(void);
 void display_all_hands(void);
 void reset_display(void);
 void reset_game(void);
+int bet_more(void);
+void generate_deck(void);
