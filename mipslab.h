@@ -104,3 +104,4 @@ int compare_score(void);
 void display_all_hands(void);
 void reset_display(void);
 void reset_game(void);
+void generate_deck(void);
