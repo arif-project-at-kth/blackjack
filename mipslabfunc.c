@@ -362,7 +362,7 @@ char *itoaconv(int num)
 int player_score = 0;
 int player_state = 1;
 int player_draw;
-char player_hand[260][5]; // Hold 52 card, 1 card = 5 characters.
+char player_hand[260][9]; // Hold 52 card, 1 card = 5 characters.
 
 int dealer_draw;
 int dealer_score = 0;
@@ -483,6 +483,18 @@ char get_card_string(const int card_value)
   return '\0';
 }
 
+void store_card_in_hand(int index, int value)
+{
+  char card_text[9];
+  card_text[0] = get_suite(index);
+  card_text[1] = get_card_string(value);
+  value = value > 10 ? 10 : value;
+  strcat(card_text, itoaconv(value));
+  strcat(player_hand[player_draw], card_text);
+  //strcat(player_hand[player_draw], ",");
+}
+
+
 int card_value(const int score)
 {
   reset_display();
@@ -499,6 +511,7 @@ int card_value(const int score)
         store_card_in_hand(index, value);
       }
       decks[index] = 0;
+      value = value > 10 ? 10 : value;
       if (value == 1 && score < 11)
       {
         return 11;
@@ -512,18 +525,6 @@ int card_value(const int score)
   }
   return value;
 }
-
-void store_card_in_hand(int index, int value)
-{
-  char card_text[4];
-  card_text[0] = get_suite(index);
-  card_text[1] = get_card_string(value);
-  value = value > 10 ? 10 : value;
-  strcat(card_text, itoaconv(value));
-  strcat(player_hand[player_draw], card_text);
-  strcat(player_hand[player_draw], ",");
-}
-
 /** DRAW CARD **/
 void draw_card(int player)
 {
@@ -600,15 +601,19 @@ void display_score(int line, char *s, int score)
 /** SHOW HAND **/
 void display_all_hands(void)
 {
+    reset_display();
   // Show recent 2 cards
-  char recent_drawn_cards[15];
-  strcat(recent_drawn_cards, player_hand[player_draw - 1]);
+  char recent_drawn_cards[9];
+  strcpy(recent_drawn_cards, player_hand[player_draw - 1]);
+  char* notZero = player_hand[player_draw];
+  if(notZero != "0" || *notZero != '\0'){
   strcat(recent_drawn_cards,",");
   strcat(recent_drawn_cards, player_hand[player_draw]);
+  }
 
-  display_score(0, "", player_draw);
+  display_score(3, "", player_draw);
   display_string(1, recent_drawn_cards); // Visar spelaren dragna kort
-  //display_score(0, DISPLAY_PLAYER_NAME, player_score);
+  display_score(0, DISPLAY_PLAYER_NAME, player_score);
   //display_score(1, DISPLAY_DRAWN, player_draw);
   //display_score(2, DISPLAY_DEALER_NAME, dealer_score);
   //display_score(3, DISPLAY_DRAWN, dealer_draw);
