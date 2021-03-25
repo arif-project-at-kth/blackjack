@@ -74,21 +74,23 @@ NEWGAME:
 
 	reset_game();
 
-//	draw_card(PLAYER);
-//	draw_card(DEALER);
-//	draw_card(PLAYER);
+	draw_card(PLAYER);
+        player_state = 0; // Dealer draws
+	draw_card(DEALER);
+        player_state = 1; // Player draws
+	draw_card(PLAYER);
 
 	/** PLAY GAME **/
 	while (1)
 	{
-/*		if (is_game_over())
+		if (is_game_over())
 		{
 			reset_display();
 			display_update();
 
 			break;
 		}
-                */
+                
 		labwork(); /* Do lab-specific things again and again */
 	}
 

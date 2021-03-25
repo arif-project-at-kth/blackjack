@@ -402,10 +402,12 @@ void reset_game(void)
 {
   player_score = 0;
   player_state = 1;
-  player_draw = 0;
+  //player_draw = 0;
 
   dealer_score = 0;
-  dealer_draw = 0;
+  //dealer_draw = 0;
+
+
 
   return;
 }
@@ -611,11 +613,9 @@ void display_all_hands(void)
   strcat(recent_drawn_cards, player_hand[player_draw]);
   }
 
-  display_score(3, "", player_draw);
-  display_string(1, recent_drawn_cards); // Visar spelaren dragna kort
   display_score(0, DISPLAY_PLAYER_NAME, player_score);
-  //display_score(1, DISPLAY_DRAWN, player_draw);
-  //display_score(2, DISPLAY_DEALER_NAME, dealer_score);
+  display_string(1, recent_drawn_cards); // Visar spelaren dragna kort
+  display_score(2, DISPLAY_DEALER_NAME, dealer_score);
   //display_score(3, DISPLAY_DRAWN, dealer_draw);
   display_update();
   return;
